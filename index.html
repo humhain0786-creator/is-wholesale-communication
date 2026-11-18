@@ -1,0 +1,3646 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101b32">
+<title>i.S Wholesale Communication</title>
+
+<!-- BROWSER TAB, SEARCH, HOME SCREEN & DEFAULT WHATSAPP SHARE PREVIEW -->
+<link rel="icon" type="image/jpeg" href="logo.jpg">
+<link rel="shortcut icon" type="image/jpeg" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="i.S Wholesale Communication">
+<meta property="og:title" content="i.S Wholesale Communication - Digital Shop">
+<meta property="og:description" content="Your Digital Wholesale Business Book & Product Catalogue">
+<meta property="og:url" content="https://is-wholesale-communication.netlify.app/">
+<meta property="og:image" content="https://is-wholesale-communication.netlify.app/logo.jpg">
+<meta property="og:image:secure_url" content="https://is-wholesale-communication.netlify.app/logo.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://is-wholesale-communication.netlify.app/logo.jpg">
+
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://i-s-wholesale-communication-default-rtdb.firebaseio.com" crossorigin>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging-compat.js"></script>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f2f5fa;color:#17243a;font-family:Arial,sans-serif}
+button,input,textarea{font:inherit}
+button{
+ border:0;border-radius:10px;padding:12px 15px;font-weight:bold;cursor:pointer;
+ transition:transform 0.09s ease,filter 0.12s ease,box-shadow 0.12s ease;
+ -webkit-tap-highlight-color:transparent;
+}
+button:active{transform:scale(0.94);filter:brightness(0.92)}
+button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+header{background:#101b32;color:white;text-align:center;padding:20px 12px}
+.brand-header-wrap{display:inline-flex;align-items:center;justify-content:center;gap:12px}
+.brand-round-logo{
+ width:46px;height:46px;border-radius:50%;object-fit:cover;object-position:top center;
+ border:2px solid #f0d28a;background:#101b32;flex-shrink:0;
+ box-shadow:0 2px 10px rgba(0,0,0,0.35);
+}
+header h1{margin:0;color:#f0d28a;font-size:23px;letter-spacing:1px}
+header p{margin:5px 0 0;font-size:11px;letter-spacing:3px}
+.shop-title-row{display:flex;align-items:center;gap:11px;margin-bottom:6px}
+.shop-title-row h2{margin:0;line-height:1.25}
+.customer-dp-avatar{
+ width:46px;height:46px;border-radius:50%;object-fit:cover;object-position:center;
+ border:2px solid #183b67;background:#eaf0f7;flex-shrink:0;
+ box-shadow:0 2px 8px rgba(24,59,103,0.18);
+}
+.dp-preview-box{display:flex;align-items:center;gap:12px;margin:6px 0 12px}
+.dp-preview-box img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid #183b67;background:#eaf0f7}
+.dp-error-msg{
+ background:#fee2e2;border:1px solid #f87171;color:#991b1b;
+ padding:10px 12px;border-radius:9px;font-size:12.5px;font-weight:bold;
+ margin:-6px 0 12px;
+}
+.container{max-width:850px;margin:auto;padding:15px}
+.card{background:white;padding:17px;border-radius:15px;margin-bottom:15px;box-shadow:0 3px 16px #15243b0c}
+h2{font-size:19px;margin:0 0 15px}
+h3{font-size:16px;margin:12px 0}
+input,textarea{width:100%;padding:13px;border:1px solid #dce3ed;border-radius:9px;margin:7px 0 14px;background:white}
+textarea{min-height:210px;line-height:1.65;resize:vertical}
+label{font-size:13px;font-weight:bold}
+.primary{background:#183b67;color:white}
+.green{background:#168557;color:white}
+.red{background:#d94b4b;color:white}
+.light{background:#eaf0f7;color:#183b67}
+.amber{background:#d97706;color:white}
+.muted{font-size:12px;color:#78869b}
+.hidden{display:none!important}
+.row{display:flex;gap:9px;align-items:center}
+.row>*{flex:1;min-width:0}
+.stat{background:#eef5f1;padding:13px;border-radius:10px;text-align:center}
+.stat b{display:block;font-size:21px;color:#168557;margin-top:5px}
+.item{border:1px solid #e2e7ef;padding:13px;border-radius:11px;margin:10px 0}
+.item-name{font-weight:bold;font-size:15px}
+.price{color:#168557;font-size:19px;font-weight:bold}
+.actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.actions button{font-size:12px;padding:9px}
+.badge{display:inline-block;background:#eaf1fa;color:#21466e;border-radius:20px;padding:5px 9px;font-size:11px}
+.badge-green{background:#e3f6ed;color:#168557}
+.welcome{padding:35px 15px;text-align:center;background:linear-gradient(145deg,#101b32,#234b78);color:white}
+.welcome h2{font-size:28px;color:#f0d28a}
+.welcome p{color:#d9e1ed}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.menu button{min-height:75px}
+#qr,#staticQR{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;min-height:20px}
+#qr img,#staticQR img,#defaultShopQR{max-width:230px;width:100%;height:auto;border-radius:12px;border:1px solid #dce3ed;padding:6px;background:white}
+.qty-box{display:flex;align-items:center;gap:8px;margin-top:8px}
+.qty-box button{padding:6px 12px;font-size:15px}
+.qty-val{font-weight:bold;min-width:24px;text-align:center}
+.search-match{background:#eef7f2;border:1px solid #bfe3cf;padding:10px 12px;border-radius:9px;margin:6px 0;font-size:14px}
+.qr-box-item{background:#f7fafe;border:1px dashed #b9cde5;padding:10px;border-radius:9px;margin-top:10px}
+.req-banner{background:#fff6e5;border:1px solid #f3c87a;color:#7a4b00;padding:11px 13px;border-radius:10px;font-size:13px;margin-bottom:14px;font-weight:bold}
+
+/* PRODUCT THUMBNAIL PREVIEW STYLES */
+.prod-thumb{width:56px;height:56px;border-radius:8px;object-fit:cover;border:1px solid #dce3ed;background:#eaf0f7;cursor:pointer;flex-shrink:0}
+.item-flex-row{display:flex;align-items:flex-start;gap:12px}
+
+/* FULL SCREEN IMAGE VIEWER MODAL */
+.img-modal{position:fixed;inset:0;background:rgba(10,18,34,0.96);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:15px}
+.img-modal img{max-width:92vw;max-height:78vh;width:auto;height:auto;border-radius:12px;object-fit:contain;background:#000;border:1px solid rgba(255,255,255,0.2)}
+
+/* 2-SECOND SPLASH INTRO OVERLAY */
+#introSplash{
+ position:fixed;inset:0;z-index:99999;
+ background:radial-gradient(circle at center,#1d3d68 0%,#0b1324 100%);
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ text-align:center;padding:20px;color:white;
+ transition:opacity 0.35s ease,visibility 0.35s ease;
+}
+#introSplash.fade-out{opacity:0;visibility:hidden;pointer-events:none}
+.intro-ring{
+ width:148px;height:148px;border-radius:50%;padding:5px;
+ background:linear-gradient(135deg,#f0d28a,#ffffff,#d99b26);
+ box-shadow:0 0 35px rgba(240,210,138,0.55);
+ animation:logoPop 0.65s cubic-bezier(.17,.89,.32,1.28) forwards;
+}
+.intro-ring img{
+ width:100%;height:100%;object-fit:cover;object-position:top center;
+ border-radius:50%;display:block;background:#101b32;
+}
+.intro-shop-title{
+ margin:18px 0 6px;font-size:25px;font-weight:bold;color:#f0d28a;
+ letter-spacing:0.8px;opacity:0;
+ animation:textZoomIn 0.55s ease 0.45s forwards;
+}
+.intro-sub-tag{
+ margin:0;font-size:18px;font-weight:bold;color:#ffffff;
+ background:rgba(255,255,255,0.12);border:1px solid rgba(240,210,138,0.45);
+ padding:6px 20px;border-radius:30px;letter-spacing:1.5px;opacity:0;
+ animation:textZoomIn 0.55s ease 0.75s forwards;
+}
+@keyframes logoPop{
+ 0%{transform:scale(0.15) rotate(-18deg);opacity:0}
+ 70%{transform:scale(1.07) rotate(2deg);opacity:1}
+ 100%{transform:scale(1) rotate(0deg);opacity:1}
+}
+@keyframes textZoomIn{
+ 0%{transform:translateY(14px) scale(0.88);opacity:0}
+ 100%{transform:translateY(0) scale(1);opacity:1}
+}
+
+/* FULL SCREEN NOTEBOOK MODE */
+#notebook.fullscreen-nb{position:fixed;inset:0;z-index:5000;background:#f2f5fa;overflow-y:auto;padding:10px}
+#notebook.fullscreen-nb .card{max-width:100%;min-height:calc(100vh - 20px);margin:0;border-radius:14px;padding:14px}
+#notebook.fullscreen-nb textarea{min-height:52vh;font-size:16px}
+
+.nb-sheet{border:1px solid #dce3ed;background:#fafcff;padding:14px;border-radius:12px;margin-bottom:14px}
+.nb-guide-bar{display:flex;justify-content:space-between;align-items:center;gap:6px;background:#101b32;color:#f0d28a;padding:7px 10px;border-radius:8px;font-size:11px;font-weight:bold;margin:8px 0 2px}
+.nb-quick-tags{display:flex;gap:5px;flex-shrink:0}
+.nb-quick-tags button{padding:4px 8px;font-size:11px;border-radius:6px;background:#f0d28a;color:#101b32}
+
+/* FULL SCREEN QR MODAL WITH PC DEDUCT BOX */
+.qr-modal{position:fixed;inset:0;background:rgba(10,18,34,0.95);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;text-align:center;color:white;overflow-y:auto}
+.qr-modal img,#fullQRCanvasBox img,#fullQRCanvasBox canvas{max-width:86vw;max-height:52vh;width:auto;height:auto;border-radius:16px;background:white;padding:10px;box-shadow:0 8px 30px rgba(0,0,0,0.5)}
+.qr-modal h3{color:#f0d28a;margin:0 0 4px;font-size:20px}
+.qr-modal .modal-amt{color:#4ade80;font-size:25px;font-weight:bold;margin:2px 0 8px}
+.qr-modal p{color:#d9e1ed;margin:8px 0 10px;font-size:13px}
+.qr-pc-deduct{display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,0.12);border:1px solid rgba(240,210,138,0.45);padding:8px 12px;border-radius:12px;margin:4px 0 12px}
+.qr-pc-deduct label{color:#f0d28a;font-size:13px;font-weight:bold;margin:0;white-space:nowrap}
+.qr-pc-deduct input{width:76px!important;margin:0!important;padding:8px 6px!important;text-align:center;font-weight:bold;font-size:15px;border-radius:8px;border:0;color:#101b32;background:white}
+.qr-pc-deduct button{background:#168557;color:white;padding:9px 16px;font-size:14px;border-radius:8px;min-width:68px}
+.qr-pc-deduct button.ok-done{background:#22c55e;color:#052e16;transform:scale(1.04)}
+.qr-modal .close-qr-btn{background:#d94b4b;color:white;padding:12px 26px;font-size:15px;border-radius:12px}
+
+footer{text-align:center;color:#8a96a7;padding:25px;font-size:11px}
+hr{border:0;border-top:1px solid #edf0f4;margin:17px 0}
+.search{margin:8px 0 12px}
+@media(max-width:430px){
+.row{gap:6px}
+.card{padding:14px}
+header h1{font-size:20px}
+.brand-round-logo{width:40px;height:40px}
+.intro-shop-title{font-size:21px}
+}
+
+/* SALES LIST POPUP LAYOUT */
+.sales-popup-card{width:min(980px,100%);max-height:92vh;overflow:auto;text-align:left;color:#14233b;margin:0;padding:16px}
+.sales-popup-head{display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:-16px;background:#fff;padding:4px 0 12px;z-index:2}
+.sales-popup-head h2{margin:0}
+.sales-date-block{border:1px solid #dce3ed;border-radius:12px;padding:12px;margin:12px 0;background:#fbfcfe}
+.sales-date-title{font-size:16px;font-weight:800;color:#183b67;margin:0 0 10px}
+.sales-columns{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid #dce3ed;border-radius:10px;overflow:hidden;background:#fff}
+.sales-column{padding:10px;min-width:0;background:#fff}
+.sales-column:first-child{border-right:2px solid #cbd5e1}
+.sales-column h4{margin:0 0 8px;font-size:14px;color:#183b67}
+.sales-column-date{font-size:12px;font-weight:800;color:#64748b;border-bottom:1px solid #dce3ed;padding-bottom:7px;margin-bottom:7px}
+.sales-column-total{border-top:2px solid #dce3ed;margin-top:8px;padding-top:9px;font-weight:800;font-size:13px;color:#168557}
+.sales-day-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:9px;border-top:1px solid #dce3ed;padding-top:9px}
+.sales-day-summary .stat{padding:9px 5px;font-size:11px}
+.sales-day-summary .stat b{font-size:15px}
+.sales-entry{border-top:1px solid #edf0f4;padding:9px 0}
+.sales-entry:first-of-type{border-top:0}
+.sales-entry .prod-thumb{width:48px;height:48px}
+.sales-entry-name{font-weight:700;font-size:13px;overflow-wrap:anywhere}
+.sales-entry-meta{font-size:12px;color:#66758a;margin-top:3px}
+.sales-entry-total{font-weight:800;color:#168557;margin-top:4px}
+.sales-date-totals{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}
+.sales-date-totals .stat{padding:9px 5px;font-size:11px}
+.sales-date-totals .stat b{font-size:16px}
+.sales-grand-total{margin-top:14px;background:#eef5f1;border-radius:11px;padding:12px}
+@media(max-width:560px){.sales-popup-card{padding:10px}.sales-columns{grid-template-columns:1fr 1fr}.sales-column{padding:7px}.sales-column h4{font-size:11px}.sales-column-date{font-size:10px}.sales-entry .prod-thumb{width:34px;height:34px}.sales-entry-name{font-size:11px}.sales-entry-meta{font-size:10px}.sales-entry-total{font-size:11px}.sales-column .actions{gap:3px}.sales-column .actions button{font-size:9px;padding:6px 4px;min-width:0}.sales-date-totals{grid-template-columns:1fr 1fr}.sales-date-totals .stat:last-child{grid-column:1/-1}.sales-day-summary{grid-template-columns:1fr 1fr}.sales-day-summary .stat:last-child{grid-column:1/-1}}
+
+</style>
+</head>
+
+<body>
+
+<!-- 2-SECOND SPLASH INTRO SCREEN -->
+<div id="introSplash" onclick="playIntroSoundOnce()">
+ <div class="intro-ring">
+  <img id="introOwnerPhoto" src="logo.jpg" alt="i.S Wholesale Communication" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent('<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 200\'><rect width=\'200\' height=\'200\' fill=\'#101b32\'/><text x=\'100\' y=\'115\' text-anchor=\'middle\' fill=\'#f0d28a\' font-family=\'Arial\' font-size=\'64\' font-weight=\'bold\'>i.S</text></svg>')">
+ </div>
+ <h1 class="intro-shop-title">i.S Wholesale Communication</h1>
+ <p class="intro-sub-tag">DIGITAL SHOP</p>
+</div>
+
+<header>
+<div class="brand-header-wrap">
+ <img class="brand-round-logo" src="logo.jpg" alt="i.S Logo" onerror="this.style.display='none'">
+ <div>
+  <h1>i.S WHOLESALE</h1>
+  <p>COMMUNICATION</p>
+ </div>
+</div>
+</header>
+
+<!-- FULL SCREEN QR VIEWER WITH PC DEDUCT & OK -->
+<div id="fullQRModal" class="qr-modal hidden" onclick="if(event.target===this)closeFullQR()">
+<h3 id="fullQRTitle">SHOP PAYMENT QR CODE</h3>
+<div id="fullQRAmount" class="modal-amt hidden"></div>
+<img id="fullQRImg" src="" alt="Full Screen QR Code">
+<div id="fullQRCanvasBox" class="hidden"></div>
+<p id="fullQRSub">स्कैन करके पेमेंट करें</p>
+<div id="fullQRPCBox" class="qr-pc-deduct hidden">
+ <label for="qrDeductPCInput">PC <span id="fullQRStockHint"></span>:</label>
+ <input id="qrDeductPCInput" type="number" min="1" step="1" placeholder="1" oninput="onQRPCInputChange()">
+ <button id="qrDeductOKBtn" type="button" onclick="confirmQRPCDeduct()">OK</button>
+</div>
+<button class="close-qr-btn" onclick="closeFullQR()">✕ बंद करें (CLOSE)</button>
+</div>
+
+<!-- FULL SCREEN IMAGE LIGHTBOX MODAL -->
+<div id="fullImgModal" class="img-modal hidden" onclick="closeFullImage()">
+<img id="fullImageModalTag" src="" alt="Product Full View">
+<button class="close-qr-btn" style="margin-top:15px" onclick="closeFullImage()">✕ बंद करें (CLOSE)</button>
+</div>
+
+<!-- CASH SALE POPUP -->
+<div id="cashSaleModal" class="qr-modal hidden" style="background:rgba(10,18,34,.88)" onclick="if(event.target===this)closeCashSale()">
+ <div class="card" style="width:min(440px,100%);color:#14233b;text-align:left;max-height:90vh;overflow:auto">
+  <h3 style="color:#183b67">💵 CASH SALE</h3>
+  <div id="cashSaleProduct"></div>
+  <label>QUANTITY (PCS)</label><input id="cashSaleQty" type="number" min="1" step="1" placeholder="1" oninput="updateCashSaleTotal()">
+  <p style="font-weight:bold">TOTAL: <span id="cashSaleTotal">₹0.00</span></p>
+  <div class="actions"><button type="button" class="green" onclick="confirmCashSale()">OK</button><button type="button" class="red" onclick="closeCashSale()">CANCEL</button></div>
+ </div>
+</div>
+
+<!-- HIDDEN FILE INPUT FOR PER-ITEM, NOTEBOOK PH & QR UPLOAD -->
+<input type="file" id="itemQRFileInput" accept="image/*" class="hidden">
+<input type="file" id="itemPhotoFileInput" accept="image/*" class="hidden">
+
+<main class="container">
+
+<!-- LOADING SCREEN -->
+<section id="welcome" class="card welcome hidden">
+<h2>WELCOME</h2>
+<h3>i.S Wholesale Communication</h3>
+<p id="loadingText">Your Digital Wholesale Business Book</p>
+<p>आपका बिजनेस डैशबोर्ड खुल रहा है...</p>
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="hidden">
+
+<div class="card">
+<div class="row">
+<div>
+<div class="shop-title-row">
+ <img id="dashboardCustomerDP" class="customer-dp-avatar" src="" alt="Shop DP">
+ <h2 id="shopHeading">i.S Wholesale Communication</h2>
+</div>
+<p class="muted" id="signedInAs"></p>
+</div>
+</div>
+
+<p class="muted">YOUR BUSINESS DASHBOARD</p>
+
+<div class="row">
+<div class="stat">TOTAL LISTS<b id="listCount">0</b></div>
+<div class="stat">TOTAL ITEMS<b id="itemCount">0</b></div>
+</div>
+</div>
+
+<div class="card">
+<h2>BUSINESS MENU</h2>
+<div class="menu">
+<button type="button" class="green" onclick="newList()">＋ ADD LIST</button>
+<button type="button" class="primary" onclick="showNotebook()">📓 NOTEBOOK</button>
+<button type="button" class="light" onclick="showLists()">MY LISTS</button>
+<button type="button" class="light" onclick="showSettings()">MY DETAILS & QR</button>
+<button type="button" class="amber" onclick="showSalesList()">🧾 SALES LIST</button>
+</div>
+</div>
+
+<!-- CUSTOMER ORDERS / DASHBOARD INQUIRIES SECTION -->
+<div class="card" id="dashboardOrdersCard">
+<h2>📋 CUSTOMER ORDERS & INQUIRIES <span class="badge" id="customerOrdersCount">0</span></h2>
+<p class="muted">ग्राहकों द्वारा भेजी गई लिस्ट और ऑर्डर यहाँ दिखेंगे।</p>
+<div id="dashboardCustomerOrdersList"></div>
+</div>
+
+<div class="card" id="dashboardDeliveryCard">
+<h2>🚚 DELIVERY LIST <span class="badge badge-green" id="deliveryOrdersCount">0</span></h2>
+<p class="muted">आपके द्वारा कन्फर्म किए गए सभी ऑर्डर यहाँ सुरक्षित दिखेंगे। किसी ऑर्डर पर टैप करके उसकी पूरी जानकारी देखें।</p>
+<div id="dashboardDeliveryList"></div>
+</div>
+
+<!-- SALES LIST POPUP: opens only after tapping SALES LIST -->
+<div id="salesListArea" class="qr-modal hidden" onclick="if(event.target===this)closeSalesList()" style="z-index:100000;background:rgba(10,18,34,.90);text-align:left;color:#14233b">
+ <div class="card sales-popup-card">
+  <div class="sales-popup-head"><h2>🧾 SALES LIST</h2><button type="button" class="red" onclick="closeSalesList()">✕ CLOSE</button></div>
+  <div id="salesSummary"></div>
+  <div id="salesRecords"></div>
+ </div>
+</div>
+
+<div class="card" id="listsArea">
+<h2>MY LISTS</h2>
+<div id="lists"></div>
+</div>
+
+</section>
+
+<!-- FULL SCREEN NOTEBOOK SECTION -->
+<section id="notebook" class="hidden fullscreen-nb">
+<div class="card">
+
+<div class="row" style="margin-bottom:10px">
+<button type="button" class="light" style="flex:0 0 auto" onclick="backDashboard()">← BACK</button>
+<h2 style="margin:0;text-align:right">📓 NOTEBOOK</h2>
+</div>
+
+<label>🔍 SEARCH IN NOTEBOOK (प्रोडक्ट या नाम तुरंत खोजें)</label>
+<input id="noteSearch" class="search" placeholder="यहाँ प्रोडक्ट या नाम टाइप करें..." oninput="searchNotebookAll()">
+<div id="noteSearchResults" class="hidden" style="margin-bottom:14px"></div>
+
+<hr>
+
+<!-- ALL NOTEBOOK SHEETS RENDER HERE -->
+<div id="notebookSheetsContainer"></div>
+
+<!-- ADD NEW NOTEBOOK LIST BUTTON -->
+<div class="row" style="margin-top:6px">
+<button type="button" class="primary" style="flex:1" onclick="addNewNotebookSheet()">＋ NEW LIST</button>
+<button type="button" class="green" style="flex:1" onclick="shareNotebookList(0)">SHARE LIST #1</button>
+</div>
+
+</div>
+</section>
+
+<!-- LIST EDITOR -->
+<section id="editor" class="hidden">
+<div class="card">
+
+<button type="button" class="light" onclick="backDashboard()">← BACK</button>
+
+<h2 style="margin-top:18px">CREATE / EDIT LIST</h2>
+
+<label>LIST NAME</label>
+<input id="listName" placeholder="Example: Mobile Accessories">
+
+<hr>
+<h3 id="itemFormHeading">ADD ITEM</h3>
+
+<label>ITEM NAME</label>
+<input id="itemName" placeholder="Enter product name">
+
+<div class="row">
+<div>
+<label>SELL PRODUCT PRICE (₹)</label>
+<input id="sellPrice" type="number" min="0" step="0.01" placeholder="95">
+</div>
+
+<div>
+<label>BUY PRODUCT PRICE (₹)</label>
+<input id="buyPrice" type="number" min="0" step="0.01" placeholder="70">
+</div>
+</div>
+
+<label>PC (कितने पीस हैं)</label>
+<input id="itemPC" type="number" min="0" step="1" placeholder="10">
+
+<!-- PRODUCT PHOTO & QR OPTIONS INSIDE ADD / EDIT ITEM FORM -->
+<div class="qr-box-item" style="margin-bottom:14px">
+<div style="font-size:12px;font-weight:bold;color:#183b67;margin-bottom:8px">
+PRODUCT PHOTO (PH) & QR OPTIONS <span id="formPHStatus" class="badge">फोटो नहीं है</span>
+</div>
+<div class="actions" style="margin-top:0">
+<button type="button" class="primary" onclick="triggerFormItemPhoto()">📸 PH: फोटो अपलोड करें</button>
+<button type="button" id="clearFormPHBtn" class="red hidden" onclick="clearFormItemPhoto()">✕ फोटो हटाएँ</button>
+</div>
+<div class="actions" style="margin-top:8px">
+<button type="button" class="light" onclick="triggerFormItemQR()">➕ अपना नया QR कोड ऐड करें</button>
+<button type="button" class="green" onclick="viewFormItemQR()">👁️ अपना QR कोड देखें</button>
+<button type="button" id="clearFormQRBtn" class="red hidden" onclick="clearFormItemQR()">✕ नया QR हटाएँ</button>
+</div>
+</div>
+
+<div class="row">
+<button type="button" id="addOrUpdateItemBtn" class="green" style="width:100%" onclick="addItem()">＋ ADD ITEM</button>
+<button type="button" id="cancelEditItemBtn" class="light hidden" style="flex:0 0 auto" onclick="cancelEditItem()">CANCEL</button>
+</div>
+
+<hr>
+
+<h3>YOUR ITEMS <span class="badge" id="itemTotal">0</span></h3>
+
+<input id="editorSearch" class="search" placeholder="इस लिस्ट में प्रोडक्ट खोजें..." oninput="renderEditorItems()">
+
+<div id="editorItems"></div>
+
+<button type="button" class="primary" style="width:100%;margin-top:12px" onclick="saveList()">SAVE LIST</button>
+
+</div>
+</section>
+
+<!-- BUSINESS SETTINGS -->
+<section id="settings" class="hidden">
+<div class="card">
+
+<button type="button" id="settingsBackBtn" class="light" onclick="tryBackFromSettings()">← BACK</button>
+
+<h2 style="margin-top:18px">MY BUSINESS DETAILS</h2>
+
+<div id="profileRequiredNotice" class="req-banner">
+⚠️ कृपया अपना <u>पता (Shop Address)</u> और <u>मोबाइल नंबर (Mobile Number)</u> जरूर भरें — इसके बिना न तो डिटेल सेव होगी और न ही बैक होगा।
+</div>
+
+<label>SHOP / CUSTOMER DP (अपनी डीपी लगाएँ) <span class="muted">(अधिकतम: 2 MB तक)</span></label>
+<input type="file" id="dpUpload" accept="image/*">
+<div id="dpSizeError" class="dp-error-msg hidden"></div>
+<div id="uploadedDPBox" class="dp-preview-box hidden">
+ <img id="uploadedDPImg" src="" alt="DP Preview">
+ <button type="button" class="red" style="padding:8px 12px;font-size:12px" onclick="removeShopDP()">✕ DP हटाएँ</button>
+</div>
+
+<label>SHOP NAME</label>
+<input id="shopName" placeholder="i.S Wholesale Communication">
+
+<label>SHOP ADDRESS <span style="color:#d94b4b">* (अनिवार्य)</span></label>
+<input id="shopAddress" placeholder="अपना पूरा पता डालें (अनिवार्य)" oninput="updateSettingsLockState()" required>
+
+<label>MOBILE NUMBER <span style="color:#d94b4b">* (अनिवार्य)</span></label>
+<input id="mobile" type="tel" maxlength="15" placeholder="अपना मोबाइल नंबर डालें (अनिवार्य)" oninput="updateSettingsLockState()" required>
+
+<label>WHATSAPP NUMBER (शेयर लिस्ट में दिखाने के लिए)</label>
+<input id="whatsappNo" type="tel" maxlength="15" placeholder="WhatsApp Number">
+
+<hr>
+<h3>PAYMENT DETAILS</h3>
+
+<label>UPI ID (रकम ऑटोमैटिक भरने के लिए)</label>
+<input id="upi" placeholder="yourname@upi">
+
+<label>PHONEPE NUMBER</label>
+<input id="phonepe" type="tel" placeholder="PhonePe number">
+
+<label>PAYTM NUMBER</label>
+<input id="paytm" type="tel" placeholder="Paytm number">
+
+<label>GOOGLE PAY NUMBER</label>
+<input id="gpay" type="tel" placeholder="Google Pay number">
+
+<hr>
+<h3>SHOP PAYMENT QR CODE (आपका मुख्य QR कोड)</h3>
+
+<p class="muted">
+यहाँ अपना मुख्य दुकान का QR कोड अपलोड करें। यही QR हर आइटम में "अपना QR कोड देखें" दबाने पर पूरी स्क्रीन पर दिखेगा।
+</p>
+
+<input type="file" id="qrUpload" accept="image/*">
+
+<div id="uploadedQR" style="margin:10px 0"></div>
+
+<button type="button" class="green" style="width:100%;margin-top:12px" onclick="saveSettings()">SAVE DETAILS</button>
+
+</div>
+</section>
+
+<!-- CUSTOMER PAGE -->
+<section id="customer" class="hidden">
+
+<div class="card" style="text-align:center">
+<div class="shop-title-row" style="justify-content:center">
+ <img id="customerPageShopDP" class="customer-dp-avatar" src="" alt="Shop DP">
+ <h2 id="customerShop">i.S Wholesale Communication</h2>
+</div>
+<p class="muted">WHOLESALE PRODUCT CATALOGUE</p>
+<h3 id="customerList"></h3>
+<p id="customerAddress" class="muted"></p>
+
+<!-- SHOP OWNER CONTACT & WHATSAPP BUTTONS -->
+<div class="actions" style="justify-content:center;margin-top:12px">
+ <a id="custCallBtn" class="button" style="background:#183b67;color:white;padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:bold;font-size:13px" href="#">📞 कॉल करें</a>
+ <a id="custWpBtn" class="button" style="background:#168557;color:white;padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:bold;font-size:13px" href="#" target="_blank">💬 WhatsApp</a>
+</div>
+</div>
+
+<!-- CUSTOMER DETAILS INPUT FORM (BEFORE CART / BUY) -->
+<div class="card" id="customerDetailsFormCard">
+<h2>📝 अपनी जानकारी दर्ज करें (CUSTOMER DETAILS)</h2>
+<p class="muted">आइटम जोड़ने या पेमेंट करने से पहले कृपया अपना नाम, मोबाइल और पता दर्ज करें।</p>
+<label>आपका नाम (Your Name) <span style="color:#d94b4b">*</span></label>
+<input id="custInputName" placeholder="अपना पूरा नाम लिखें">
+<label>मोबाइल नंबर (Mobile Number) <span style="color:#d94b4b">*</span></label>
+<input id="custInputMobile" type="tel" maxlength="15" placeholder="10 अंकों का मोबाइल नंबर">
+<label>डिलिवरी पता (Address) <span style="color:#d94b4b">*</span></label>
+<textarea id="custInputAddress" style="min-height:75px" placeholder="अपनी दुकान या घर का पूरा पता लिखें"></textarea>
+<button type="button" class="primary" style="width:100%" onclick="saveCustomerDetailsPrompt()">✓ विवरण सुरक्षित करें (SAVE DETAILS)</button>
+</div>
+
+<!-- CUSTOMER SAVED CART / SELECTION -->
+<div class="card" id="customerCartBox">
+<div class="row">
+<h2 style="margin:0">MY SELECTED ITEMS <span class="badge" id="cartCount">0</span></h2>
+<button type="button" class="red" style="flex:0 0 auto;padding:8px 12px;font-size:12px" onclick="clearCustomerCart()">CLEAR</button>
+</div>
+<p class="muted" style="margin-top:6px">आपका चुना हुआ सामान अपने आप सेव रहता है (बंद करके खोलने पर भी नहीं हटेगा)।</p>
+<div id="customerCartItems"></div>
+<div id="customerCartSummary" class="hidden">
+<hr>
+<div class="row">
+<div>
+<span class="muted">TOTAL AMOUNT</span>
+<div class="price" id="cartTotalAmount">₹0</div>
+</div>
+<button type="button" class="green" onclick="payCartTotal()">PAY TOTAL BILL & SEND ORDER</button>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h2>AVAILABLE ITEMS</h2>
+<input id="customerSearch" class="search" placeholder="प्रोडक्ट खोजें..." oninput="renderCustomerItems()">
+<div id="customerItems"></div>
+</div>
+
+<div class="card hidden" id="paymentBox">
+<h2>PAYMENT DETAILS</h2>
+<p id="paymentProduct" style="font-weight:bold;text-align:center"></p>
+<div class="price" id="paymentAmount" style="text-align:center;margin-bottom:8px"></div>
+<div id="qr"></div>
+<p class="muted" style="text-align:center" id="paymentHint"></p>
+<button type="button" class="green" id="upiButton" style="width:100%;margin-bottom:12px">PAY WITH UPI</button>
+<div id="staticQR"></div>
+<hr>
+<p class="muted" style="text-align:center">
+पेमेंट करने के बाद दुकानदार से भुगतान की पुष्टि जरूर करवाएँ।
+</p>
+</div>
+
+<div class="card hidden" id="codProductSelector" style="border:1px solid #dce3ed">
+ <h2>📦 COD के लिए प्रोडक्ट चुनें</h2>
+ <p class="muted">जिन प्रोडक्ट का ऑर्डर करना है, उन्हें चुनें और मात्रा भरें।</p>
+ <div id="codProductOptions"></div>
+ <div class="actions" style="margin-top:12px">
+  <button type="button" class="green" onclick="confirmSelectedCodOrder()">CONFIRM CASH ON DELIVERY</button>
+  <button type="button" class="light" onclick="closeCodProductSelector()">CANCEL</button>
+ </div>
+</div>
+<div class="card hidden" id="codConfirmation" style="border:1px solid #b8dfc8;background:#f2fbf5;text-align:center">
+ <p style="font-weight:bold;color:#168557;margin:0">50% एडवांस पेमेंट डिलीवरी पर।</p>
+ <p style="margin:8px 0 0">हमारी टीम आपको बहुत जल्द कॉन्टैक्ट करेगी।</p>
+ <p style="margin:6px 0 0">धन्यवाद।</p>
+ <p id="codDeliveryConfirmed" class="hidden" style="margin:12px 0 0;padding:10px;border-radius:8px;background:#e2f5e9;color:#168557;font-size:18px;font-weight:bold">✓ डिलीवरी कन्फर्म</p>
+</div>
+
+</section>
+
+</main>
+
+<footer>© i.S Wholesale Communication</footer>
+
+<script>
+"use strict";
+
+/* GLOBAL SHARED AUDIO CONTEXT FOR INTRO + BUTTON CLICK SOUNDS */
+let sharedAudioCtx=null;
+let introSoundPlayed=false;
+
+function getAudioContext(){
+ try{
+  const AudioCtx=window.AudioContext||window.webkitAudioContext;
+  if(!AudioCtx)return null;
+  if(!sharedAudioCtx)sharedAudioCtx=new AudioCtx();
+  if(sharedAudioCtx.state==="suspended")sharedAudioCtx.resume();
+  return sharedAudioCtx;
+ }catch(e){
+  return null;
+ }
+}
+
+/* CRISP BUTTON TAP / CLICK SOUND ON EVERY BUTTON PRESS */
+function playButtonClickSound(isConfirm){
+ try{
+  const ctx=getAudioContext();
+  if(!ctx)return;
+  const now=ctx.currentTime;
+
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+  osc.type="sine";
+  if(isConfirm){
+   osc.frequency.setValueAtTime(660,now);
+   osc.frequency.exponentialRampToValueAtTime(990,now+0.07);
+   gain.gain.setValueAtTime(0.14,now);
+   gain.gain.exponentialRampToValueAtTime(0.0001,now+0.12);
+   osc.connect(gain);
+   gain.connect(ctx.destination);
+   osc.start(now);
+   osc.stop(now+0.13);
+  }else{
+   osc.frequency.setValueAtTime(520,now);
+   osc.frequency.exponentialRampToValueAtTime(340,now+0.045);
+   gain.gain.setValueAtTime(0.11,now);
+   gain.gain.exponentialRampToValueAtTime(0.0001,now+0.055);
+   osc.connect(gain);
+   gain.connect(ctx.destination);
+   osc.start(now);
+   osc.stop(now+0.06);
+  }
+ }catch(e){}
+}
+
+document.addEventListener("pointerdown",e=>{
+ const btn=e.target&&e.target.closest?e.target.closest("button"):null;
+ if(btn&&!btn.disabled){
+  playButtonClickSound(btn.id==="qrDeductOKBtn");
+ }
+},{capture:true});
+
+/* 2-SECOND INTRO SOUND ("TINU" CHIME + "ZYUU" SWOOSH) & SPLASH TIMER */
+function playIntroSoundOnce(){
+ if(introSoundPlayed)return;
+ try{
+  const ctx=getAudioContext();
+  if(!ctx)return;
+  const now=ctx.currentTime;
+
+  const notes=[587.33,880,1174.66];
+  notes.forEach((freq,i)=>{
+   const osc=ctx.createOscillator();
+   const gain=ctx.createGain();
+   osc.type="sine";
+   osc.frequency.setValueAtTime(freq,now+i*0.11);
+   gain.gain.setValueAtTime(0.001,now+i*0.11);
+   gain.gain.exponentialRampToValueAtTime(0.14,now+i*0.11+0.03);
+   gain.gain.exponentialRampToValueAtTime(0.0001,now+i*0.11+0.55);
+   osc.connect(gain);
+   gain.connect(ctx.destination);
+   osc.start(now+i*0.11);
+   osc.stop(now+i*0.11+0.6);
+  });
+
+  const sweepOsc=ctx.createOscillator();
+  const sweepGain=ctx.createGain();
+  sweepOsc.type="triangle";
+  sweepOsc.frequency.setValueAtTime(260,now+0.48);
+  sweepOsc.frequency.exponentialRampToValueAtTime(780,now+1.15);
+  sweepGain.gain.setValueAtTime(0.001,now+0.48);
+  sweepGain.gain.exponentialRampToValueAtTime(0.11,now+0.72);
+  sweepGain.gain.exponentialRampToValueAtTime(0.0001,now+1.35);
+  sweepOsc.connect(sweepGain);
+  sweepGain.connect(ctx.destination);
+  sweepOsc.start(now+0.48);
+  sweepOsc.stop(now+1.4);
+
+  introSoundPlayed=true;
+ }catch(e){}
+}
+
+playIntroSoundOnce();
+document.addEventListener("pointerdown",playIntroSoundOnce,{once:true});
+
+setTimeout(()=>{
+ const splash=document.getElementById("introSplash");
+ if(splash){
+  splash.classList.add("fade-out");
+  setTimeout(()=>splash.remove(),400);
+ }
+},2000);
+
+/* YOUR FIREBASE CONFIGURATION */
+
+const firebaseConfig={
+ apiKey:"AIzaSyBT4Q9_biXklgD-FO9miwS3iJDl2r75wmY",
+ authDomain:"i-s-wholesale-communication.firebaseapp.com",
+ databaseURL:"https://i-s-wholesale-communication-default-rtdb.firebaseio.com",
+ projectId:"i-s-wholesale-communication",
+ storageBucket:"i-s-wholesale-communication.firebasestorage.app",
+ messagingSenderId:"507434135287",
+ appId:"1:507434135287:web:57c42962df651d70702df2",
+ measurementId:"G-8B70ZKWWR8"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth=firebase.auth();
+const db=firebase.database();
+
+/* WEBSITE PUSH NOTIFICATIONS — requires the one-time Firebase setup in PUSH_NOTIFICATION_SETUP.txt */
+const PUSH_VAPID_PUBLIC_KEY="BI7d5sGfVQebfvSl3DCMqOgwggZklPueR_NLG5Ug1vVgFmEvveVHyNAM-1BfZ3zOSQyhf4Ps7HpfQQidjG9humE";
+let pushMessaging=null;
+let pushButtonAdded=false;
+let pushServiceWorkerRegistration=null;
+
+function pushTokenKey(token){
+ try{return btoa(token).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/g,"");}
+ catch(e){return String(token).replace(/[.#$\[\]\/]/g,"_");}
+}
+
+async function registerWebsitePush(){
+ if(!currentUser)throw new Error("पहले वेबसाइट में लॉगिन होने दें।");
+ if(!('serviceWorker' in navigator)||!('Notification' in window))throw new Error("इस ब्राउज़र में वेबसाइट Push Notification उपलब्ध नहीं है। Chrome में वेबसाइट खोलें।");
+ if(!(await firebase.messaging.isSupported()))throw new Error("इस ब्राउज़र में Firebase Push Notification सपोर्ट नहीं है।");
+ if(!PUSH_VAPID_PUBLIC_KEY||PUSH_VAPID_PUBLIC_KEY.includes("PASTE_YOUR"))throw new Error("पहले Firebase की Web Push public key सेटअप करनी होगी। निर्देश ZIP में दिए हैं।");
+ const permission=await Notification.requestPermission();
+ if(permission!=="granted")throw new Error("फोन की Settings में वेबसाइट Notifications की अनुमति दें।");
+ pushServiceWorkerRegistration=await navigator.serviceWorker.register("/firebase-messaging-sw.js");
+ pushMessaging=pushMessaging||firebase.messaging();
+ const token=await pushMessaging.getToken({vapidKey:PUSH_VAPID_PUBLIC_KEY,serviceWorkerRegistration:pushServiceWorkerRegistration});
+ if(!token)throw new Error("Push token नहीं मिला। वेबसाइट को दोबारा खोलकर कोशिश करें।");
+ const tokenKey=pushTokenKey(token);
+ await db.ref("pushTokens/"+currentUser.uid+"/"+tokenKey).set({token,updatedAt:Date.now(),platform:"web"});
+ localStorage.setItem("isWholesalePushEnabled","1");
+ if(customerMode&&customerShareUid&&customerShareListId){
+  await db.ref("publicListSubscribers/"+customerShareUid+"/"+customerShareListId+"/"+currentUser.uid).set({uid:currentUser.uid,updatedAt:Date.now()});
+ }
+ updatePushButtonLabel("🔔 नोटिफिकेशन चालू हैं");
+ return true;
+}
+
+// Send order events to secure Netlify Functions. The server verifies the
+// signed-in Firebase user and reads the order/tokens directly from Realtime DB.
+async function sendNetlifyOrderPush(functionName,payload){
+ try{
+  if(!auth.currentUser)return;
+  const idToken=await auth.currentUser.getIdToken();
+  const response=await fetch("/.netlify/functions/"+functionName,{
+   method:"POST",
+   headers:{"Content-Type":"application/json","Authorization":"Bearer "+idToken},
+   body:JSON.stringify(payload)
+  });
+  if(!response.ok){
+   const detail=await response.text().catch(()=>"");
+   console.warn("Order push notification was not sent",functionName,response.status,detail);
+  }
+ }catch(error){
+  // Do not interrupt order placement/confirmation if push delivery is unavailable.
+  console.warn("Order push notification request failed",functionName,error);
+ }
+}
+
+function updatePushButtonLabel(label){
+ const btn=document.getElementById("websitePushEnableButton");
+ if(btn)btn.textContent=label;
+}
+
+function addWebsitePushButton(){
+ if(pushButtonAdded||!currentUser)return;
+ pushButtonAdded=true;
+ const header=document.querySelector("header");
+ if(!header)return;
+ const btn=document.createElement("button");
+ btn.id="websitePushEnableButton";
+ btn.type="button";
+ btn.textContent=localStorage.getItem("isWholesalePushEnabled")==="1"?"🔔 नोटिफिकेशन चालू हैं":"🔔 फोन पर नोटिफिकेशन चालू करें";
+ btn.style.cssText="display:block;margin:12px auto 0;padding:8px 13px;border-radius:20px;background:#f0d28a;color:#101b32;font-size:12px;font-weight:bold";
+ btn.addEventListener("click",async()=>{
+  btn.disabled=true;
+  try{await registerWebsitePush();alert("वेबसाइट नोटिफिकेशन चालू हो गई हैं।");}
+  catch(e){alert(e.message||"नोटिफिकेशन चालू नहीं हो सकीं।");}
+  finally{btn.disabled=false;}
+ });
+ header.appendChild(btn);
+}
+
+
+/* DEFAULT FALLBACK SHOP DP AVATAR */
+const DEFAULT_SHOP_DP_SVG="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <rect width="120" height="120" rx="60" fill="#183b67"/>
+  <circle cx="60" cy="44" r="20" fill="#f0d28a"/>
+  <path d="M24 104c4-22 20-32 36-32s32 10 36 32" fill="#f0d28a"/>
+</svg>
+`);
+
+/* DEFAULT FALLBACK QR GRAPHIC */
+const DEFAULT_SHOP_QR_SVG="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 440" width="360" height="440">
+  <rect width="360" height="440" rx="18" fill="#ffffff" stroke="#dce3ed" stroke-width="2"/>
+  <circle cx="180" cy="36" r="16" fill="#183b67"/>
+  <text x="180" y="42" text-anchor="middle" fill="#ffffff" font-family="Arial" font-size="16" font-weight="bold">पे</text>
+  <text x="180" y="75" text-anchor="middle" fill="#17243a" font-family="Arial" font-size="17" font-weight="bold">Kotak Mahindra Bank - 1365</text>
+  <text x="180" y="96" text-anchor="middle" fill="#168557" font-family="Arial" font-size="12" font-weight="bold">Primary account for receiving money</text>
+  <rect x="45" y="115" width="270" height="270" rx="12" fill="#ffffff" stroke="#101b32" stroke-width="3"/>
+  <g fill="#101b32">
+    <rect x="65" y="135" width="60" height="60" fill="none" stroke="#101b32" stroke-width="8"/>
+    <rect x="81" y="151" width="28" height="28"/>
+    <rect x="235" y="135" width="60" height="60" fill="none" stroke="#101b32" stroke-width="8"/>
+    <rect x="251" y="151" width="28" height="28"/>
+    <rect x="65" y="305" width="60" height="60" fill="none" stroke="#101b32" stroke-width="8"/>
+    <rect x="81" y="321" width="28" height="28"/>
+    <rect x="145" y="135" width="12" height="24"/><rect x="170" y="145" width="24" height="12"/><rect x="205" y="135" width="12" height="36"/>
+    <rect x="145" y="175" width="36" height="12"/><rect x="195" y="185" width="24" height="12"/>
+    <rect x="65" y="215" width="24" height="12"/><rect x="105" y="215" width="36" height="12"/><rect x="75" y="240" width="12" height="36"/>
+    <rect x="105" y="255" width="24" height="24"/><rect x="225" y="215" width="36" height="12"/><rect x="275" y="215" width="20" height="24"/>
+    <rect x="235" y="250" width="24" height="12"/><rect x="270" y="255" width="25" height="25"/>
+    <rect x="145" y="305" width="24" height="12"/><rect x="185" y="305" width="12" height="36"/><rect x="215" y="315" width="36" height="12"/>
+    <rect x="145" y="335" width="24" height="30"/><rect x="215" y="340" width="24" height="25"/><rect x="255" y="330" width="40" height="15"/>
+    <rect x="265" y="355" width="30" height="12"/>
+  </g>
+  <circle cx="180" cy="250" r="24" fill="#101b32"/>
+  <text x="180" y="258" text-anchor="middle" fill="#ffffff" font-family="Arial" font-size="22" font-weight="bold">पे</text>
+  <text x="180" y="415" text-anchor="middle" fill="#78869b" font-family="Arial" font-size="12" font-weight="bold">i.S Wholesale Communication</text>
+</svg>
+`);
+
+const LOCAL_OWNER_KEY="is_wholesale_owner_v2";
+const LOCAL_CUSTOMER_DEVICE_KEY="is_wholesale_customer_device_v2";
+const LOCAL_CUSTOMER_INFO_KEY="is_wholesale_customer_info_v2";
+const MAX_DP_BYTES=2*1024*1024;
+const MAX_ITEM_PHOTO_BYTES=1.5*1024*1024;
+
+const defaultData=()=>({
+ settings:{
+  shopName:"i.S Wholesale Communication",
+  shopAddress:"",
+  mobile:"",
+  whatsappNo:"",
+  upi:"",
+  phonepe:"",
+  paytm:"",
+  gpay:"",
+  qrImage:"",
+  shopDP:""
+ },
+ lists:[],
+ notebook:{
+  quickText:"",
+  sheets:[
+   {id:"nb_1",text:"",photos:{},qrImage:""}
+  ],
+  entries:[]
+ },
+ orders:[]
+});
+
+let data=defaultData();
+let currentUser=null;
+let currentId=null;
+let tempItems=[];
+let editingItemId=null;
+let formItemQR="";
+let formItemPhoto="";
+let pendingQRTarget=null;
+let pendingPhotoTarget=null;
+let pendingNotebookSheetId=null;
+let activeQRContext=null;
+let activeCashItemId=null;
+let customerPayload=null;
+let customerShareUid="";
+let customerShareListId="";
+let customerCart={};
+let customerInfo={name:"",mobile:"",address:""};
+let customerMode=location.hash.startsWith("#view=");
+let anonymousSignInStarted=false;
+let ordersListenerRef=null;
+let legacyOrdersListenerRef=null;
+let activeScreen="welcome";
+let dpProcessing=false;
+
+function el(id){
+ return document.getElementById(id);
+}
+
+function makeId(){
+ return "id_"+Date.now()+"_"+Math.random().toString(36).slice(2,9);
+}
+
+function getCustomerDeviceId(){
+ let id=localStorage.getItem(LOCAL_CUSTOMER_DEVICE_KEY);
+ if(!id){
+  id="cust_"+Date.now()+"_"+Math.random().toString(36).slice(2,10);
+  localStorage.setItem(LOCAL_CUSTOMER_DEVICE_KEY,id);
+ }
+ return id;
+}
+
+function money(value){
+ return "₹"+Number(value||0).toLocaleString("en-IN",{
+  minimumFractionDigits:0,
+  maximumFractionDigits:2
+ });
+}
+
+function escapeHTML(value){
+ return String(value??"").replace(/[&<>"']/g,c=>({
+  "&":"&amp;",
+  "<":"&lt;",
+  ">":"&gt;",
+  '"':"&quot;",
+  "'":"&#39;"
+ }[c]));
+}
+
+/* CHECK IF ADDRESS & MOBILE NUMBER ARE FILLED */
+function isSettingsFieldsValid(){
+ const addr=String(el("shopAddress").value||"").trim();
+ const mobDigits=String(el("mobile").value||"").replace(/\D/g,"");
+ return addr.length>=2&&mobDigits.length>=10;
+}
+
+function isSavedProfileComplete(){
+ const s=data.settings||{};
+ const addr=String(s.shopAddress||"").trim();
+ const mobDigits=String(s.mobile||"").replace(/\D/g,"");
+ return addr.length>=2&&mobDigits.length>=10;
+}
+
+function show(id){
+ activeScreen=id;
+ ["welcome","dashboard","notebook","editor","settings","customer"].forEach(x=>{
+  const elem=el(x);
+  if(elem) elem.classList.add("hidden");
+ });
+ const targetElem=el(id);
+ if(targetElem) targetElem.classList.remove("hidden");
+ window.scrollTo(0,0);
+}
+
+/* FULL SCREEN LIGHTBOX IMAGE VIEWER */
+function openFullImage(src){
+ if(!src)return;
+ el("fullImageModalTag").src=src;
+ el("fullImgModal").classList.remove("hidden");
+}
+
+function closeFullImage(){
+ el("fullImgModal").classList.add("hidden");
+ el("fullImageModalTag").src="";
+}
+
+/* FULL SCREEN QR VIEWER WITH PC DEDUCT & SILENT VISUAL OK */
+
+function getValidUPI(customUpi){
+ const u=String(customUpi!==undefined?customUpi:(data.settings.upi||"")).trim();
+ return /^[^@\s]+@[^@\s]+$/.test(u)?u:"";
+}
+
+function renderModalQRVisual(src,title,sub,amount,customUpi,customShop){
+ const upi=getValidUPI(customUpi);
+ const shopName=customShop||data.settings.shopName||"i.S Wholesale Communication";
+
+ el("fullQRTitle").textContent=title||"SHOP PAYMENT QR CODE";
+ el("fullQRCanvasBox").innerHTML="";
+
+ if(upi&&Number.isFinite(amount)&&amount>0&&typeof QRCode!=="undefined"){
+  const uri="upi://pay?pa="+encodeURIComponent(upi)+
+   "&pn="+encodeURIComponent(shopName)+
+   "&am="+encodeURIComponent(amount.toFixed(2))+
+   "&cu=INR&tn="+encodeURIComponent(title||"Payment");
+
+  el("fullQRAmount").textContent=money(amount);
+  el("fullQRAmount").classList.remove("hidden");
+  el("fullQRImg").classList.add("hidden");
+  el("fullQRCanvasBox").classList.remove("hidden");
+
+  new QRCode(el("fullQRCanvasBox"),{
+   text:uri,
+   width:240,
+   height:240,
+   correctLevel:QRCode.CorrectLevel.M
+  });
+
+  el("fullQRSub").textContent="स्कैन करते ही "+money(amount)+" अपने आप भर जाएगा ("+upi+")";
+ }else{
+  const finalSrc=src||data.settings.qrImage||DEFAULT_SHOP_QR_SVG;
+  if(Number.isFinite(amount)&&amount>0){
+   el("fullQRAmount").textContent=money(amount);
+   el("fullQRAmount").classList.remove("hidden");
+  }else{
+   el("fullQRAmount").classList.add("hidden");
+  }
+  el("fullQRCanvasBox").classList.add("hidden");
+  el("fullQRImg").src=finalSrc;
+  el("fullQRImg").classList.remove("hidden");
+  el("fullQRSub").textContent=sub||"स्कैन करके पेमेंट करें";
+ }
+}
+
+function openFullQR(src,title,sub,autoSellAmount,customUpi,customShop,qrContext){
+ const baseAmount=Number(autoSellAmount||0);
+ activeQRContext=qrContext?{
+  ...qrContext,
+  src:src,
+  title:title,
+  sub:sub,
+  unitSell:baseAmount,
+  customUpi:customUpi,
+  customShop:customShop
+ }:null;
+
+ const pcBox=el("fullQRPCBox");
+ const pcInput=el("qrDeductPCInput");
+ const stockHint=el("fullQRStockHint");
+ const okBtn=el("qrDeductOKBtn");
+
+ if(okBtn){
+  okBtn.textContent="OK";
+  okBtn.classList.remove("ok-done");
+ }
+
+ if(activeQRContext&&!customerMode){
+  pcInput.value="";
+  stockHint.textContent="(स्टॉक: "+activeQRContext.currentPC+")";
+  pcBox.classList.remove("hidden");
+ }else{
+  pcBox.classList.add("hidden");
+ }
+
+ renderModalQRVisual(src,title,sub,baseAmount,customUpi,customShop);
+ el("fullQRModal").classList.remove("hidden");
+}
+
+function onQRPCInputChange(){
+ if(!activeQRContext)return;
+ const raw=el("qrDeductPCInput").value.trim();
+ const qty=raw===""?1:Math.max(1,Math.floor(Number(raw)||1));
+ const totalAmt=activeQRContext.unitSell>0?(activeQRContext.unitSell*qty):0;
+ renderModalQRVisual(
+  activeQRContext.src,
+  activeQRContext.title+(qty>1?(" ("+qty+" PC)"):""),
+  activeQRContext.sub,
+  totalAmt,
+  activeQRContext.customUpi,
+  activeQRContext.customShop
+ );
+}
+
+function showOKButtonFeedback(){
+ const okBtn=el("qrDeductOKBtn");
+ if(!okBtn)return;
+ okBtn.textContent="✓ OK";
+ okBtn.classList.add("ok-done");
+ setTimeout(()=>{
+  if(el("qrDeductOKBtn")){
+   el("qrDeductOKBtn").textContent="OK";
+   el("qrDeductOKBtn").classList.remove("ok-done");
+  }
+ },900);
+}
+
+async function confirmQRPCDeduct(){
+ if(!activeQRContext)return;
+ const raw=el("qrDeductPCInput").value.trim();
+ const deductQty=raw===""?1:Math.floor(Number(raw));
+ if(!Number.isFinite(deductQty)||deductQty<=0){
+  el("qrDeductPCInput").focus();
+  return;
+ }
+
+ if(activeQRContext.type==="EDITOR_ITEM"){
+  const item=tempItems.find(x=>x.id===activeQRContext.itemId);
+  if(item){
+   const prevPC=Number(item.pc||0);
+   const newPC=Math.max(0,prevPC-deductQty);
+   item.pc=newPC;
+   addSaleRecord(item,deductQty,"Online Sale","QR/UPI");
+   activeQRContext.currentPC=newPC;
+   el("fullQRStockHint").textContent="(स्टॉक: "+newPC+")";
+   renderEditorItems();
+
+   if(currentId){
+    const savedList=data.lists.find(l=>l.id===currentId);
+    if(savedList){
+     const savedItem=(savedList.items||[]).find(x=>x.id===item.id);
+     if(savedItem)savedItem.pc=newPC;
+     try{await saveCloud();}catch(e){}
+    }
+   }
+   showOKButtonFeedback();
+  }
+ }else if(activeQRContext.type==="NOTEBOOK_LINE"){
+  ensureNotebookSheets();
+  const sheet=data.notebook.sheets.find(s=>s.id===activeQRContext.sheetId);
+  const ta=el("nb_text_"+activeQRContext.sheetId);
+  if(sheet&&ta){
+   const lines=ta.value.split(/\r?\n/);
+   const idx=activeQRContext.lineIdx;
+   if(idx>=0&&idx<lines.length){
+    let line=lines[idx];
+    const mPC=line.match(/(\bPC\s*[:=\-]?\s*)(\d+)/i);
+    let newPC=0;
+    if(mPC){
+     const prevPC=Number(mPC[2]||0);
+     newPC=Math.max(0,prevPC-deductQty);
+     line=line.replace(/(\bPC\s*[:=\-]?\s*)(\d+)/i,"$1"+newPC);
+    }else{
+     newPC=0;
+     line=line.replace(/\s+$/,"")+"  PC: 0";
+    }
+    lines[idx]=line;
+    const updatedText=lines.join("\n");
+    ta.value=updatedText;
+    sheet.text=updatedText;
+    if(data.notebook.sheets[0]&&data.notebook.sheets[0].id===sheet.id){
+     data.notebook.quickText=updatedText;
+    }
+    activeQRContext.currentPC=newPC;
+    el("fullQRStockHint").textContent="(स्टॉक: "+newPC+")";
+    try{await saveCloud();}catch(e){saveLocalSilent();}
+    showOKButtonFeedback();
+   }
+  }
+ }
+
+ el("qrDeductPCInput").value="";
+}
+
+function closeFullQR(){
+ activeQRContext=null;
+ el("fullQRModal").classList.add("hidden");
+}
+
+/* COMPRESS QR / DP / PRODUCT PHOTO AUTOMATICALLY */
+
+function readAndResizeImage(file,maxDim,quality,callback){
+ const reader=new FileReader();
+ reader.onload=e=>{
+  const img=new Image();
+  img.onload=()=>{
+   let w=img.width;
+   let h=img.height;
+   if(w>maxDim||h>maxDim){
+    if(w>h){
+     h=Math.round((h*maxDim)/w);
+     w=maxDim;
+    }else{
+     w=Math.round((w*maxDim)/h);
+     h=maxDim;
+    }
+   }
+   const canvas=document.createElement("canvas");
+   canvas.width=w;
+   canvas.height=h;
+   const ctx=canvas.getContext("2d");
+   ctx.fillStyle="#ffffff";
+   ctx.fillRect(0,0,w,h);
+   ctx.drawImage(img,0,0,w,h);
+   const dataUrl=canvas.toDataURL("image/jpeg",quality);
+   callback(dataUrl);
+  };
+  img.onerror=()=>callback(e.target.result);
+  img.src=e.target.result;
+ };
+ reader.onerror=()=>callback("");
+ reader.readAsDataURL(file);
+}
+
+function readAndResizeQR(file,callback){
+ readAndResizeImage(file,520,0.82,callback);
+}
+
+function readAndResizePhoto(file,callback){
+ readAndResizeImage(file,420,0.78,callback);
+}
+
+/* PER-ITEM & NOTEBOOK PH (PHOTO) & QR UPLOAD HANDLER */
+
+el("itemQRFileInput").addEventListener("change",function(){
+ const file=this.files[0];
+ this.value="";
+ if(!file)return;
+
+ if(!file.type.startsWith("image/")){
+  alert("कृपया सही QR इमेज चुनें।");
+  return;
+ }
+
+ readAndResizeQR(file,async resizedDataUrl=>{
+  if(pendingNotebookSheetId){
+   ensureNotebookSheets();
+   const s=data.notebook.sheets.find(x=>x.id===pendingNotebookSheetId);
+   pendingNotebookSheetId=null;
+   if(s){
+    s.qrImage=resizedDataUrl;
+    renderNotebookSheets();
+    try{
+     await saveCloud();
+     alert("इस नोटबुक लिस्ट के लिए नया QR कोड सेव हो गया है!");
+    }catch(e){
+     alert("QR सेव नहीं हुआ: "+friendlyError(e));
+    }
+   }
+   return;
+  }
+
+  if(pendingQRTarget==="FORM"){
+   formItemQR=resizedDataUrl;
+   updateFormQRBadge();
+   alert("इस आइटम के लिए नया QR कोड सेट हो गया है!");
+  }else if(pendingQRTarget){
+   const item=tempItems.find(x=>x.id===pendingQRTarget);
+   if(item){
+    item.qrImage=resizedDataUrl;
+    renderEditorItems();
+    alert("'" + item.name + "' के लिए नया QR कोड जुड़ गया है! नीचे SAVE LIST जरूर दबाएँ।");
+   }
+  }
+  pendingQRTarget=null;
+ });
+});
+
+el("itemPhotoFileInput").addEventListener("change",function(){
+ const file=this.files[0];
+ this.value="";
+ if(!file)return;
+
+ if(!file.type.startsWith("image/")){
+  alert("कृपया सही फोटो चुनें।");
+  return;
+ }
+
+ if(file.size>MAX_ITEM_PHOTO_BYTES){
+  alert("इमेज साइज बहुत बड़ा है। कृपया छोटी फोटो चुनें (1.5 MB से कम)।");
+  return;
+ }
+
+ readAndResizePhoto(file,async resizedPhotoUrl=>{
+  if(pendingNotebookSheetId){
+   ensureNotebookSheets();
+   const s=data.notebook.sheets.find(x=>x.id===pendingNotebookSheetId);
+   const ta=el("nb_text_"+pendingNotebookSheetId);
+   if(s&&ta){
+    const lineIdx=getActiveNotebookLineIndex(ta);
+    if(lineIdx>=0){
+     if(!s.photos) s.photos={};
+     s.photos[lineIdx]=resizedPhotoUrl;
+    }
+   }
+   pendingNotebookSheetId=null;
+   pendingPhotoTarget=null;
+   renderNotebookSheets();
+   try{
+    await saveCloud();
+    alert("इस लाइन/प्रोडक्ट के लिए फोटो सहेज ली गई है!");
+   }catch(e){}
+   return;
+  }
+
+  if(pendingPhotoTarget==="FORM"){
+   formItemPhoto=resizedPhotoUrl;
+   updateFormPHBadge();
+   alert("प्रोडक्ट की फोटो (PH) सफलतापूर्वक जुड़ गई है!");
+  }else if(pendingPhotoTarget){
+   const item=tempItems.find(x=>x.id===pendingPhotoTarget);
+   if(item){
+    item.photo=resizedPhotoUrl;
+    renderEditorItems();
+    alert("'" + item.name + "' की फोटो (PH) जुड़ गई है! नीचे SAVE LIST जरूर दबाएँ।");
+   }
+  }
+  pendingPhotoTarget=null;
+ });
+});
+
+function triggerNotebookSheetQR(sheetId){
+ pendingQRTarget=null;
+ pendingPhotoTarget=null;
+ pendingNotebookSheetId=sheetId;
+ el("itemQRFileInput").click();
+}
+
+function triggerNotebookSheetPhoto(sheetId){
+ pendingQRTarget=null;
+ pendingPhotoTarget=null;
+ pendingNotebookSheetId=sheetId;
+ el("itemPhotoFileInput").click();
+}
+
+function getActiveNotebookLineIndex(ta){
+ if(!ta)return -1;
+ const text=ta.value||"";
+ const start=typeof ta.selectionStart==="number"?ta.selectionStart:text.length;
+ const before=text.slice(0,start);
+ return before.split(/\r?\n/).length-1;
+}
+
+function getActiveNotebookLinePhoto(sheetId){
+ ensureNotebookSheets();
+ const s=data.notebook.sheets.find(x=>x.id===sheetId);
+ if(!s)return "";
+ const ta=el("nb_text_"+sheetId);
+ const lineIdx=getActiveNotebookLineIndex(ta);
+ if(s.photos&&s.photos[lineIdx]) return s.photos[lineIdx];
+ if(s.photo) return s.photo;
+ return "";
+}
+
+function extractSellAndPCFromNotebookSheet(sheetId){
+ const ta=el("nb_text_"+sheetId);
+ const text=ta?ta.value:"";
+ const lines=text.split(/\r?\n/);
+
+ const parseLine=(line,idx)=>{
+  const mSell=line.match(/\bS\s*[:=\-]?\s*(\d+(?:\.\d+)?)/i);
+  const mPC=line.match(/\bPC\s*[:=\-]?\s*(\d+)/i);
+  const cleanTitle=line
+   .replace(/\b(?:PC|[BS]|PH)\s*[:=\-]?\s*\d+(?:\.\d+)?/gi,"")
+   .replace(/^\s*\d+[\.\)\-\s:]*/,"")
+   .trim();
+  return {
+   sell:mSell?Number(mSell[1]):0,
+   pc:mPC?Number(mPC[1]):0,
+   title:cleanTitle,
+   lineIdx:idx
+  };
+ };
+
+ if(ta&&typeof ta.selectionStart==="number"){
+  const before=text.slice(0,ta.selectionStart);
+  const curIdx=before.split(/\r?\n/).length-1;
+  const curLine=lines[curIdx]||"";
+  if(curLine.trim()){
+   const parsed=parseLine(curLine,curIdx);
+   if(parsed.sell>0||parsed.pc>0||parsed.title){
+    return parsed;
+   }
+  }
+ }
+
+ for(let i=lines.length-1;i>=0;i--){
+  const line=lines[i]||"";
+  if(line.trim()){
+   return parseLine(line,i);
+  }
+ }
+ return {sell:0,pc:0,title:"",lineIdx:-1};
+}
+
+function viewNotebookSheetQR(sheetId){
+ ensureNotebookSheets();
+ const idx=data.notebook.sheets.findIndex(x=>x.id===sheetId);
+ const s=data.notebook.sheets[idx];
+ if(!s)return;
+ const extracted=extractSellAndPCFromNotebookSheet(sheetId);
+ const title=extracted.title||("NOTEBOOK LIST #"+(idx+1));
+ const src=s.qrImage||data.settings.qrImage||DEFAULT_SHOP_QR_SVG;
+ const sub=extracted.sell>0
+  ?("Sell Price: "+money(extracted.sell)+" | स्टॉक: "+extracted.pc+" PC")
+  :(s.qrImage?("NOTEBOOK LIST #"+(idx+1)+" - नया सेव किया हुआ QR कोड"):("NOTEBOOK LIST #"+(idx+1)+" - मुख्य दुकान QR कोड"));
+ const ctx=extracted.lineIdx>=0
+  ?{type:"NOTEBOOK_LINE",sheetId:sheetId,lineIdx:extracted.lineIdx,currentPC:extracted.pc}
+  :null;
+ openFullQR(src,title,sub,extracted.sell,undefined,undefined,ctx);
+}
+
+function triggerFormItemQR(){
+ pendingNotebookSheetId=null;
+ pendingPhotoTarget=null;
+ pendingQRTarget="FORM";
+ el("itemQRFileInput").click();
+}
+
+function triggerFormItemPhoto(){
+ pendingNotebookSheetId=null;
+ pendingQRTarget=null;
+ pendingPhotoTarget="FORM";
+ el("itemPhotoFileInput").click();
+}
+
+function viewFormItemQR(){
+ const name=el("itemName").value.trim()||"Shop Payment QR";
+ const sellVal=Number(el("sellPrice").value||0);
+ const src=formItemQR||data.settings.qrImage||DEFAULT_SHOP_QR_SVG;
+ const label=sellVal>0
+  ?("Sell Price: "+money(sellVal)+" — स्कैन करके पेमेंट करें")
+  :(formItemQR?"आइटम का नया QR कोड":"पहले से सेव मुख्य दुकान QR कोड");
+ openFullQR(src,name,label,sellVal);
+}
+
+function clearFormItemQR(){
+ formItemQR="";
+ updateFormQRBadge();
+}
+
+function clearFormItemPhoto(){
+ formItemPhoto="";
+ updateFormPHBadge();
+}
+
+function updateFormQRBadge(){
+ const badge=el("formQRStatus");
+ const clearBtn=el("clearFormQRBtn");
+ /* formQRStatus वैकल्पिक है; उसके न होने पर Add List को रुकना नहीं चाहिए */
+ if(badge){
+  if(formItemQR){
+   badge.textContent="नया आइटम QR जुड़ा है ✓";
+   badge.classList.add("badge-green");
+  }else{
+   badge.textContent="मुख्य QR सेट है";
+   badge.classList.remove("badge-green");
+  }
+ }
+ if(clearBtn){
+  if(formItemQR) clearBtn.classList.remove("hidden");
+  else clearBtn.classList.add("hidden");
+ }
+}
+
+function updateFormPHBadge(){
+ const badge=el("formPHStatus");
+ const clearBtn=el("clearFormPHBtn");
+ if(formItemPhoto){
+  badge.textContent="PH: फोटो जुड़ी है ✓";
+  badge.classList.add("badge-green");
+  clearBtn.classList.remove("hidden");
+ }else{
+  badge.textContent="फोटो नहीं है";
+  badge.classList.remove("badge-green");
+  clearBtn.classList.add("hidden");
+ }
+}
+
+function triggerExistingItemQR(itemId){
+ pendingNotebookSheetId=null;
+ pendingPhotoTarget=null;
+ pendingQRTarget=itemId;
+ el("itemQRFileInput").click();
+}
+
+function triggerExistingItemPhoto(itemId){
+ pendingNotebookSheetId=null;
+ pendingQRTarget=null;
+ pendingPhotoTarget=itemId;
+ el("itemPhotoFileInput").click();
+}
+
+function viewExistingItemQR(itemId){
+ const item=tempItems.find(x=>x.id===itemId);
+ if(!item)return;
+ const sellVal=Number(item.sell||0);
+ const curPC=Number(item.pc||0);
+ const src=item.qrImage||data.settings.qrImage||DEFAULT_SHOP_QR_SVG;
+ const sub=item.qrImage
+  ?(item.name+" - आइटम का अपना QR कोड ("+money(sellVal)+") | स्टॉक: "+curPC+" PC")
+  :(item.name+" - Sell Price: "+money(sellVal)+" | स्टॉक: "+curPC+" PC");
+ openFullQR(
+  src,
+  item.name,
+  sub,
+  sellVal,
+  undefined,
+  undefined,
+  {type:"EDITOR_ITEM",itemId:item.id,currentPC:curPC}
+ );
+}
+
+function viewCustomerItemQR(itemId){
+ if(!customerPayload)return;
+ const item=customerPayload.list.items.find(x=>x.id===itemId);
+ if(!item)return;
+ const sellVal=Number(item.sell||0);
+ const src=item.qrImage||customerPayload.qrImage||DEFAULT_SHOP_QR_SVG;
+ openFullQR(src,item.name,"रेट: "+money(sellVal)+" — स्कैन करके पेमेंट करें",sellVal,customerPayload.upi,customerPayload.shop);
+}
+
+/* FIREBASE DATABASE REFERENCES */
+
+function userDataRef(){
+ if(!currentUser)throw new Error("Firebase user not ready.");
+ return db.ref("users/"+currentUser.uid+"/data");
+}
+
+function publicListRef(uid,id){
+ return db.ref("publicLists/"+uid+"/"+id);
+}
+
+function customerCartRef(uid,listId){
+ const devId=getCustomerDeviceId();
+ return db.ref("customerCarts/"+uid+"/"+listId+"/"+devId);
+}
+
+function customerProfileRef(){
+ if(!currentUser)throw new Error("Firebase customer login अभी तैयार नहीं है।");
+ return db.ref("users/"+currentUser.uid+"/data/customerProfile");
+}
+
+function waitForCustomerAuth(){
+ if(auth.currentUser){currentUser=auth.currentUser;return Promise.resolve(currentUser);}
+ return new Promise(resolve=>{
+  const unsubscribe=auth.onAuthStateChanged(user=>{
+   if(user){currentUser=user;unsubscribe();resolve(user);}
+  });
+ });
+}
+
+/* CUSTOMER & NOTEBOOK SHARE PAYLOAD WITH OWNER CONTACT & PH */
+
+function cleanPublicPayload(list,isNotebook,sheetIdx){
+ return {
+  shop:data.settings.shopName||"i.S Wholesale Communication",
+  shopDP:data.settings.shopDP||"",
+  address:data.settings.shopAddress||"",
+  mobile:data.settings.mobile||"",
+  whatsappNo:data.settings.whatsappNo||data.settings.mobile||"",
+  upi:data.settings.upi||"",
+  qrImage:data.settings.qrImage||"",
+  isNotebook:!!isNotebook,
+  list:{
+   id:list.id,
+   name:list.name,
+   items:list.items.map(i=>({
+    id:i.id,
+    name:i.name,
+    sell:Number(i.sell),
+    pc:Number(i.pc||0),
+    photo:i.photo||"",
+    qrImage:i.qrImage||""
+   }))
+  }
+ };
+}
+
+function normalizeData(raw){
+ const base=defaultData();
+ if(!raw||typeof raw!=="object")return base;
+ if(raw.settings&&typeof raw.settings==="object"){
+  base.settings={...base.settings,...raw.settings};
+ }
+ if(Array.isArray(raw.lists)){
+  base.lists=raw.lists;
+ }
+ if(raw.notebook&&typeof raw.notebook==="object"){
+  base.notebook.quickText=String(raw.notebook.quickText||"");
+  if(Array.isArray(raw.notebook.sheets)&&raw.notebook.sheets.length){
+   base.notebook.sheets=raw.notebook.sheets.map((s,idx)=>({
+    id:s.id||("nb_"+(idx+1)),
+    text:String(s.text||""),
+    photo:String(s.photo||""),
+    photos:s.photos&&typeof s.photos==="object"?s.photos:{},
+    qrImage:String(s.qrImage||"")
+   }));
+  }else{
+   base.notebook.sheets=[{id:"nb_1",text:base.notebook.quickText,photo:"",photos:{},qrImage:""}];
+  }
+  base.notebook.entries=Array.isArray(raw.notebook.entries)?raw.notebook.entries:[];
+ }
+ if(Array.isArray(raw.orders)){
+  base.orders=raw.orders;
+ }
+ if(Array.isArray(raw.sales)){base.sales=raw.sales;}
+ return base;
+}
+
+function loadLocalInstant(){
+ try{
+  const rawLocal=localStorage.getItem(LOCAL_OWNER_KEY);
+  if(rawLocal){
+   data=normalizeData(JSON.parse(rawLocal));
+   return true;
+  }
+ }catch(e){}
+ return false;
+}
+
+function saveLocalSilent(){
+ try{
+  localStorage.setItem(LOCAL_OWNER_KEY,JSON.stringify(data));
+ }catch(e){}
+}
+
+async function saveCloud(){
+ saveLocalSilent();
+ if(!currentUser)throw new Error("Please wait for Firebase.");
+ await userDataRef().set(data);
+}
+
+async function loadCloud(){
+ let localBackup=null;
+ try{
+  const rawLocal=localStorage.getItem(LOCAL_OWNER_KEY);
+  if(rawLocal)localBackup=normalizeData(JSON.parse(rawLocal));
+ }catch(e){}
+
+ const snap=await userDataRef().once("value");
+ const value=snap.val();
+
+ if(value&&(Array.isArray(value.lists)||value.settings||value.notebook)){
+  const cloudNormalized=normalizeData(value);
+  if(!cloudNormalized.settings.shopDP&&localBackup&&localBackup.settings.shopDP){
+   cloudNormalized.settings.shopDP=localBackup.settings.shopDP;
+  }
+  data=cloudNormalized;
+  saveLocalSilent();
+ }else if(localBackup&&(localBackup.lists.length||localBackup.notebook.quickText||(localBackup.notebook.sheets&&localBackup.notebook.sheets.some(s=>s.text||s.qrImage||s.photo))||localBackup.settings.qrImage||localBackup.settings.shopDP||localBackup.settings.upi||localBackup.settings.mobile||localBackup.settings.shopAddress)){
+  data=localBackup;
+  await userDataRef().set(data);
+ }else{
+  data=defaultData();
+ }
+}
+
+/* ERROR MESSAGES */
+
+function friendlyError(e){
+ const code=e&&e.code||"";
+
+ const map={
+  "auth/operation-not-allowed":"Firebase में Anonymous Authentication Enable करें।",
+  "auth/network-request-failed":"इंटरनेट कनेक्शन चेक करें।",
+  "PERMISSION_DENIED":"Firebase Database Rules सही से सेट नहीं हैं।"
+ };
+
+ return map[code]||e.message||"कुछ समस्या हुई।";
+}
+
+/* DASHBOARD & ORDERS RENDERING */
+function renderDashboardOrderItems(order){
+ const items=Array.isArray(order.items)?order.items:[];
+ if(!items.length){
+  return `<div style="font-size:13px;background:white;padding:8px;border-radius:8px;border:1px solid #e2e7ef;margin:6px 0"><b>आइटम:</b> ${escapeHTML(order.itemsSummary||"")}</div>`;
+ }
+ return `<div style="font-size:13px;background:white;padding:8px;border-radius:8px;border:1px solid #e2e7ef;margin:6px 0">
+  ${items.map(item=>{
+   const qty=Math.max(1,Number(item.quantity||1));
+   const unitPrice=Number(item.unitPrice||0);
+   const itemTotal=Number(item.total!==undefined?item.total:unitPrice*qty);
+   return `<div style="display:flex;align-items:center;gap:10px;margin:4px 0">
+    ${item.photo?`<img src="${escapeHTML(item.photo)}" alt="${escapeHTML(item.name||"Item")}" style="width:62px;height:62px;object-fit:cover;border-radius:8px;border:1px solid #e2e7ef;flex:0 0 62px">`:""}
+    <div style="min-width:0;flex:1"><b>${escapeHTML(item.name||"Item")}</b><br><span class="muted">${money(unitPrice)} × ${qty} = </span><b>${money(itemTotal)}</b></div>
+   </div>`;
+  }).join("")}
+ </div>`;
+}
+
+function startOrdersListener(){
+ if(customerMode||!currentUser)return;
+ if(ordersListenerRef)ordersListenerRef.off("value");
+ if(legacyOrdersListenerRef)legacyOrdersListenerRef.off("value");
+ // New customer orders are private to the shop owner in customerOrders/{ownerUid}.
+ ordersListenerRef=db.ref("customerOrders/"+currentUser.uid);
+ ordersListenerRef.on("value",snap=>{
+  const raw=snap.val()||{};
+  const received=Object.keys(raw).map(key=>raw[key]).filter(o=>o&&typeof o==="object");
+  // Firebase customerOrders is the source of truth: deleted orders must not be
+  // resurrected from stale local data, and confirmed orders stay out of inbox.
+  data.orders=received;
+  saveLocalSilent();
+  if(activeScreen==="dashboard")renderDashboard();
+ });
+ // Keep displaying orders created by older versions of the site.
+ legacyOrdersListenerRef=userDataRef().child("orders");
+ legacyOrdersListenerRef.on("value",snap=>{
+  const raw=snap.val();
+  const old=Array.isArray(raw)?raw:(raw&&typeof raw==="object"?Object.values(raw):[]);
+  // Legacy orders are retained only when not already represented by the
+  // Firebase customerOrders feed. Do not restore deleted IDs from local cache.
+  const currentIds=new Set((data.orders||[]).map(o=>o&&o.id).filter(Boolean));
+  old.forEach(o=>{if(o&&o.id&&!currentIds.has(o.id))data.orders.push(o)});
+  saveLocalSilent();
+  if(activeScreen==="dashboard")renderDashboard();
+ });
+}
+function renderDashboard(){
+ renderSalesList();
+ const dpImg=el("dashboardCustomerDP");
+ if(dpImg) dpImg.src=data.settings.shopDP||DEFAULT_SHOP_DP_SVG;
+ if(dpImg) dpImg.classList.remove("hidden");
+
+ const shopHeadingEl=el("shopHeading");
+ if(shopHeadingEl) shopHeadingEl.textContent=data.settings.shopName||"i.S Wholesale Communication";
+
+ const signedInAsEl=el("signedInAs");
+ if(signedInAsEl) signedInAsEl.textContent=currentUser?"Your private business workspace (Firebase Synced)":"Your private business workspace (Syncing...)";
+
+ const listCountEl=el("listCount");
+ if(listCountEl) listCountEl.textContent=data.lists.length;
+
+ const itemCountEl=el("itemCount");
+ if(itemCountEl) itemCountEl.textContent=data.lists.reduce((t,l)=>t+(l.items||[]).length,0);
+
+ const allOrders=data.orders||[];
+ const orders=allOrders.filter(o=>o&&!o.confirmed);
+ const customerOrdersCountEl=el("customerOrdersCount");
+ if(customerOrdersCountEl) customerOrdersCountEl.textContent=orders.length;
+ const ordersDiv=el("dashboardCustomerOrdersList");
+ if(ordersDiv){
+  if(!orders.length){
+   ordersDiv.innerHTML='<p class="muted">अभी कोई नया कस्टमर ऑर्डर नहीं आया है।</p>';
+  }else{
+   ordersDiv.innerHTML=orders.slice().reverse().map((o,i)=>`
+    <div class="item" style="background:#f8fafc">
+     <div class="row">
+      <div style="font-weight:bold;color:#183b67">${i+1}. ${escapeHTML(o.customerName)} (${escapeHTML(o.customerMobile)})</div>
+      <span class="badge badge-green">${o.time||"अभी"}</span>
+     </div>
+     <p class="muted" style="margin:4px 0"><b>पता:</b> ${escapeHTML(o.customerAddress)}</p>
+     <p class="muted" style="margin:4px 0"><b>लिस्ट:</b> ${escapeHTML(o.listName)}</p>
+     ${o.deliveryConfirmation?`<p style="margin:4px 0;color:#168557;font-weight:bold">डिलीवरी / ऑर्डर कन्फर्मेशन: ${escapeHTML(o.deliveryConfirmation)}</p>`:""}
+     ${o.paymentMode?`<p style="margin:4px 0;color:#168557;font-weight:bold">पेमेंट: ${escapeHTML(o.paymentMode)}</p>`:""}
+     ${renderDashboardOrderItems(o)}
+     ${o.advanceAmount!==undefined?`<p class="muted" style="margin:4px 0"><b>50% एडवांस:</b> ${money(o.advanceAmount)} — ${escapeHTML(o.status||"एडवांस आवश्यक")}</p>`:""}
+     <div class="row" style="align-items:center;margin-top:6px">
+      <div class="price" style="font-size:16px">कुल: ${money(o.totalAmount)}</div>
+      <div class="actions" style="margin:0;justify-content:flex-end">
+       ${o.confirmed?'<span class="badge badge-green">✓ कन्फर्म</span>':`<button type="button" class="green" style="padding:6px 10px;font-size:11px" onclick="confirmCustomerOrder('${o.id}')">✓ CONFIRM</button>`}
+       <a class="button" style="background:#168557;color:white;padding:6px 12px;font-size:12px;text-decoration:none;border-radius:8px" href="tel:${o.customerMobile}">📞 कॉल करें</a>
+       <a class="button" style="background:#25D366;color:white;padding:6px 12px;font-size:12px;text-decoration:none;border-radius:8px" href="https://wa.me/91${o.customerMobile.replace(/\D/g,"")}" target="_blank">💬 WhatsApp</a>
+       <button type="button" class="red" style="padding:6px 10px;font-size:11px" onclick="removeCustomerOrder('${o.id}')">✕ हटाएं</button>
+      </div>
+     </div>
+    </div>
+   `).join("");
+  }
+ }
+
+ const confirmedOrders=allOrders.filter(o=>o&&o.confirmed===true);
+ const deliveryCountEl=el("deliveryOrdersCount");
+ if(deliveryCountEl)deliveryCountEl.textContent=confirmedOrders.length;
+ const deliveryDiv=el("dashboardDeliveryList");
+ if(deliveryDiv){
+  if(!confirmedOrders.length){
+   deliveryDiv.innerHTML='<p class="muted">अभी कोई ऑर्डर कन्फर्म नहीं किया गया है।</p>';
+  }else{
+   deliveryDiv.innerHTML=confirmedOrders.slice().reverse().map((o,i)=>`
+    <details class="item" style="background:#f8fafc">
+     <summary style="cursor:pointer;font-weight:bold;color:#183b67;line-height:1.5">
+      ${i+1}. ${escapeHTML(o.customerName||"ग्राहक")} — ${escapeHTML(o.customerMobile||"")} <span class="badge badge-green">✓ कन्फर्म</span>
+     </summary>
+     <p class="muted" style="margin:8px 0 4px"><b>पता:</b> ${escapeHTML(o.customerAddress||"—")}</p>
+     <p class="muted" style="margin:4px 0"><b>लिस्ट:</b> ${escapeHTML(o.listName||"—")}</p>
+     <p class="muted" style="margin:4px 0"><b>ऑर्डर समय:</b> ${escapeHTML(o.time||"—")}</p>
+     ${o.confirmedAt?`<p class="muted" style="margin:4px 0"><b>कन्फर्म समय:</b> ${escapeHTML(o.confirmedAt)}</p>`:""}
+     ${o.paymentMode?`<p class="muted" style="margin:4px 0"><b>पेमेंट:</b> ${escapeHTML(o.paymentMode)}</p>`:""}
+     ${renderDashboardOrderItems(o)}
+     <div class="price" style="font-size:16px;margin-top:8px">कुल: ${money(o.totalAmount)}</div>
+     ${o.advanceAmount!==undefined?`<p class="muted"><b>50% एडवांस:</b> ${money(o.advanceAmount)}</p>`:""}
+     <div class="actions">
+      <a class="button" style="background:#168557;color:white;padding:7px 12px;font-size:12px;text-decoration:none;border-radius:8px" href="tel:${o.customerMobile}">📞 कॉल करें</a>
+      <a class="button" style="background:#25D366;color:white;padding:7px 12px;font-size:12px;text-decoration:none;border-radius:8px" href="https://wa.me/91${o.customerMobile.replace(/\D/g,"")}" target="_blank">💬 WhatsApp</a>
+      <button type="button" class="red" style="padding:7px 12px;font-size:12px" onclick="removeCustomerOrder('${o.id}')">✕ DELIVERY LIST से हटाएं</button>
+     </div>
+    </details>
+   `).join("");
+  }
+ }
+
+ const listsDiv=el("lists");
+ if(listsDiv){
+  if(!data.lists.length){
+   listsDiv.innerHTML='<p class="muted">No lists created. Click ADD LIST to start.</p>';
+   return;
+  }
+
+  listsDiv.innerHTML=data.lists.map((list,index)=>`
+   <div class="item">
+    <div class="item-name">${index+1}. ${escapeHTML(list.name)}</div>
+    <p class="muted">${(list.items||[]).length} Items</p>
+    <div class="actions">
+     <button type="button" class="primary" onclick="editList('${list.id}')">EDIT</button>
+     <button type="button" class="green" onclick="shareList('${list.id}')">SHARE</button>
+     <button type="button" class="red" onclick="deleteList('${list.id}')">DELETE</button>
+    </div>
+   </div>
+  `).join("");
+ }
+}
+
+async function confirmCustomerOrder(orderId){
+ const order=(data.orders||[]).find(o=>o&&o.id===orderId);
+ if(!order||order.confirmed)return;
+ if(!confirm("क्या आप इस ग्राहक का ऑर्डर कन्फर्म करके DELIVERY LIST में जोड़ना चाहते हैं?"))return;
+ const confirmedAt=new Date().toLocaleString("hi-IN");
+ const updates={confirmed:true,status:"ऑर्डर कन्फर्म",deliveryConfirmation:"दुकानदार ने ऑर्डर कन्फर्म कर दिया",confirmedAt};
+ try{
+  const orderRef=db.ref("customerOrders/"+currentUser.uid+"/"+orderId);
+  const existingSnap=await orderRef.once("value");
+  if(existingSnap.exists()){
+   await orderRef.update(updates);
+  }else{
+   await orderRef.set({...order,id:orderId,customerName:order.customerName||"ग्राहक",customerMobile:order.customerMobile||"",customerAddress:order.customerAddress||"",listName:order.listName||"Catalogue",totalAmount:Number(order.totalAmount||0),time:order.time||new Date().toLocaleString("hi-IN"),status:updates.status,deliveryConfirmation:updates.deliveryConfirmation,...updates});
+  }
+  if(order.customerUid){
+   await db.ref("customerNotifications/"+order.customerUid+"/"+orderId).set({
+    ownerUid:currentUser.uid,
+    orderId:orderId,
+    message:"डिलीवरी कन्फर्म",
+    createdAt:Date.now()
+   });
+   await sendNetlifyOrderPush("order-confirmed",{orderId:orderId});
+  }
+  Object.assign(order,updates);
+  saveLocalSilent();
+  renderDashboard();
+  alert("ऑर्डर कन्फर्म हो गया। ग्राहक की वेबसाइट पर ✓ डिलीवरी कन्फर्म दिखेगा।");
+ }catch(e){
+  alert("ऑर्डर कन्फर्म नहीं हो सका: "+friendlyError(e)+"\nFirebase Rules में दुकानदार को अपने ऑर्डर अपडेट करने की अनुमति होनी चाहिए।");
+ }
+}
+
+async function removeCustomerOrder(orderId){
+ if(!confirm("क्या आप इस ऑर्डर को हमेशा के लिए हटाना चाहते हैं?"))return;
+ const previousOrders=data.orders||[];
+ data.orders=previousOrders.filter(o=>o&&o.id!==orderId);
+ renderDashboard();
+ try{
+  // Remove the actual Firebase order. No customer notification is created.
+  if(currentUser){
+   await db.ref("customerOrders/"+currentUser.uid+"/"+orderId).remove();
+   await userDataRef().child("orders").once("value").then(async snap=>{
+    const raw=snap.val();
+    if(Array.isArray(raw)){
+     const next=raw.filter(o=>!o||o.id!==orderId);
+     await userDataRef().child("orders").set(next);
+    }else if(raw&&typeof raw==="object"){
+     const next={...raw};
+     Object.keys(next).forEach(k=>{if(next[k]&&next[k].id===orderId)delete next[k]});
+     await userDataRef().child("orders").set(next);
+    }
+   });
+  }
+  saveLocalSilent();
+  renderDashboard();
+ }catch(e){
+  data.orders=previousOrders;
+  renderDashboard();
+  alert("ऑर्डर हटाया नहीं जा सका: "+friendlyError(e));
+ }
+}
+
+function backDashboard(){
+ editingItemId=null;
+ formItemQR="";
+ formItemPhoto="";
+ show("dashboard");
+ renderDashboard();
+}
+
+function showLists(){
+ const listsAreaEl=el("listsArea");
+ if(listsAreaEl) listsAreaEl.scrollIntoView({behavior:"smooth"});
+}
+
+/* FULL SCREEN NOTEBOOK WITH B, S, PC & PH TAGS + DYNAMIC LINE PHOTO PREVIEW */
+
+function ensureNotebookSheets(){
+ if(!data.notebook)data.notebook={quickText:"",sheets:[],entries:[]};
+ if(!Array.isArray(data.notebook.sheets)||!data.notebook.sheets.length){
+  data.notebook.sheets=[{
+   id:"nb_1",
+   text:String(data.notebook.quickText||""),
+   photo:"",
+   photos:{},
+   qrImage:""
+  }];
+ }
+}
+
+function stripLeadingNumbersKeepTrailingSpace(line){
+ return String(line||"").replace(/^(\s*\d+[\.\)\-\s:]+)+/,"");
+}
+
+function autoNumberNotebookText(rawText,keepEmptyLineIdx,trimLines){
+ const lines=String(rawText||"").split(/\r?\n/);
+ let counter=1;
+ const formatted=lines.map((line,idx)=>{
+  const trimmed=line.trim();
+  if(idx===keepEmptyLineIdx){
+   const num=counter++;
+   const cleaned=stripLeadingNumbersKeepTrailingSpace(line);
+   return num+". "+(trimLines?cleaned.trim():cleaned);
+  }
+  if(!trimmed)return "";
+  const cleaned=stripLeadingNumbersKeepTrailingSpace(line);
+  if(!cleaned.trim())return "";
+  const num=counter++;
+  return num+". "+(trimLines?cleaned.trim():cleaned);
+ });
+ return formatted.join("\n");
+}
+
+function showNotebook(){
+ ensureNotebookSheets();
+ const noteSearchEl=el("noteSearch");
+ if(noteSearchEl) noteSearchEl.value="";
+ const noteSearchResultsEl=el("noteSearchResults");
+ if(noteSearchResultsEl){
+  noteSearchResultsEl.classList.add("hidden");
+  noteSearchResultsEl.innerHTML="";
+ }
+ renderNotebookSheets();
+ show("notebook");
+}
+
+function renderNotebookSheets(){
+ ensureNotebookSheets();
+ const container=el("notebookSheetsContainer");
+ if(!container) return;
+ container.innerHTML=data.notebook.sheets.map((sheet,idx)=>{
+  const currentLinePhoto=getActiveNotebookLinePhoto(sheet.id);
+  return `
+  <div class="nb-sheet" id="nb_sheet_box_${sheet.id}">
+   <div class="row" style="margin-bottom:6px">
+    <label style="margin:0">NOTEBOOK LIST #${idx+1} <span class="badge ${sheet.qrImage?'badge-green':''}">${sheet.qrImage?'नया QR सेव है ✓':'मुख्य QR'}</span></label>
+    <div class="row" style="flex:0 0 auto;gap:6px">
+     <button type="button" class="green" style="padding:6px 10px;font-size:11px" onclick="shareNotebookList(${idx})">SHARE LIST</button>
+     ${idx>0
+      ?`<button type="button" class="red" style="padding:6px 10px;font-size:11px" onclick="deleteNotebookSheet('${sheet.id}')">DELETE</button>`
+      :""
+     }
+    </div>
+   </div>
+
+   <div class="nb-guide-bar">
+    <span>1. ITEM | B | S | PC | PH</span>
+    <div class="nb-quick-tags">
+     <button type="button" onmousedown="event.preventDefault()" onclick="insertBSTag('${sheet.id}','B')">+ B</button>
+     <button type="button" onmousedown="event.preventDefault()" onclick="insertBSTag('${sheet.id}','S')">+ S</button>
+     <button type="button" onmousedown="event.preventDefault()" onclick="insertBSTag('${sheet.id}','PC')">+ PC</button>
+     <button type="button" onmousedown="event.preventDefault()" onclick="insertBSTag('${sheet.id}','PH')">+ PH</button>
+    </div>
+   </div>
+
+   <div id="nb_line_photo_preview_${sheet.id}" style="margin:6px 0;${currentLinePhoto?'':'display:none'}">
+    <div style="display:flex;align-items:center;gap:8px">
+     <img id="nb_active_thumb_${sheet.id}" src="${currentLinePhoto}" class="prod-thumb" onclick="openFullImage(this.src)" alt="Line Photo">
+     <span class="muted" style="font-size:11px">इस लाइन/प्रोडक्ट की फोटो</span>
+     <button type="button" class="red" style="padding:5px 9px;font-size:11px" onclick="removeNotebookLinePhoto('${sheet.id}')">✕ फोटो हटाएं</button>
+    </div>
+   </div>
+
+   <textarea id="nb_text_${sheet.id}" placeholder="1. Vivo  B: 70  S: 95  PC: 10  PH&#10;2. Y200 5g  B: 120  S: 150  PC: 5&#10;(लिखें, हटाएँ या पेस्ट करें — गिनती 1, 2, 3... अपने आप सही हो जाएगी)" onkeydown="onNotebookKeyDown(event,'${sheet.id}')" onkeyup="updateNotebookLinePhotoPreview('${sheet.id}')" onclick="updateNotebookLinePhotoPreview('${sheet.id}')" onpaste="onNotebookPaste(event,'${sheet.id}')" oninput="onNotebookSheetInput('${sheet.id}',this)">${escapeHTML(sheet.text||"")}</textarea>
+
+   <button type="button" class="green" style="width:100%" onclick="saveNotebookSheet('${sheet.id}')">SAVE NOTEBOOK</button>
+   <div class="actions" style="margin-top:9px">
+    <button type="button" class="primary" style="flex:1" onclick="triggerNotebookSheetPhoto('${sheet.id}')">📸 PH: फोटो अपलोड</button>
+    <button type="button" class="primary" style="flex:1" onclick="triggerNotebookSheetQR('${sheet.id}')">➕ QR कोड</button>
+    <button type="button" class="light" style="flex:1" onclick="viewNotebookSheetQR('${sheet.id}')">👁️ QR देखें</button>
+   </div>
+  </div>
+ `}).join("");
+}
+
+function updateNotebookLinePhotoPreview(sheetId){
+ const ta=el("nb_text_"+sheetId);
+ const previewBox=el("nb_line_photo_preview_"+sheetId);
+ const thumb=el("nb_active_thumb_"+sheetId);
+ if(!ta||!previewBox||!thumb)return;
+ 
+ ensureNotebookSheets();
+ const s=data.notebook.sheets.find(x=>x.id===sheetId);
+ if(!s)return;
+ 
+ const lineIdx=getActiveNotebookLineIndex(ta);
+ const photoUrl=(s.photos&&s.photos[lineIdx])?s.photos[lineIdx]:(s.photo||"");
+ 
+ if(photoUrl){
+  thumb.src=photoUrl;
+  previewBox.style.display="block";
+ }else{
+  previewBox.style.display="none";
+  thumb.src="";
+ }
+}
+
+async function removeNotebookLinePhoto(sheetId){
+ ensureNotebookSheets();
+ const s=data.notebook.sheets.find(x=>x.id===sheetId);
+ const ta=el("nb_text_"+sheetId);
+ if(s&&ta){
+  const lineIdx=getActiveNotebookLineIndex(ta);
+  if(s.photos&&s.photos[lineIdx]){
+   delete s.photos[lineIdx];
+  }else{
+   s.photo="";
+  }
+  updateNotebookLinePhotoPreview(sheetId);
+  try{await saveCloud();}catch(e){}
+ }
+}
+
+function insertBSTag(sheetId,tag){
+ const ta=el("nb_text_"+sheetId);
+ if(!ta)return;
+
+ const nbContainer=el("notebook");
+ const savedPageScroll=nbContainer?nbContainer.scrollTop:0;
+ const savedTaScroll=ta.scrollTop;
+
+ const start=ta.selectionStart??ta.value.length;
+ const end=ta.selectionEnd??ta.value.length;
+ const before=ta.value.slice(0,start);
+ const after=ta.value.slice(end);
+ const prefix=(before.length>0&&!/[\s\n]$/.test(before))?"  ":"";
+ const insertStr=prefix+(tag==="PH"?"PH: [फोटो संलग्न]":tag+": ");
+ ta.value=before+insertStr+after;
+ const newPos=start+insertStr.length;
+
+ try{
+  ta.focus({preventScroll:true});
+ }catch(e){
+  ta.focus();
+ }
+ ta.selectionStart=ta.selectionEnd=newPos;
+ ta.scrollTop=savedTaScroll;
+ if(nbContainer)nbContainer.scrollTop=savedPageScroll;
+
+ syncNotebookDataOnly(sheetId,ta.value);
+ updateNotebookLinePhotoPreview(sheetId);
+}
+
+let lastEnterTs=0;
+
+function onNotebookKeyDown(e,sheetId){
+ if(e.key==="Enter"){
+  const now=Date.now();
+  if(now-lastEnterTs<90){
+   e.preventDefault();
+   return;
+  }
+  lastEnterTs=now;
+
+  const ta=e.target;
+  const start=ta.selectionStart;
+  const end=ta.selectionEnd;
+  if(start===end){
+   const before=ta.value.slice(0,start);
+   const after=ta.value.slice(end);
+   const linesBefore=before.split(/\r?\n/);
+   const currentLine=(linesBefore[linesBefore.length-1]||"").trim();
+
+   if(/^\d+[\.\)\-\s:]*$/.test(currentLine)){
+    e.preventDefault();
+    return;
+   }
+
+   e.preventDefault();
+
+   const newLineIdx=linesBefore.length;
+   const combined=before+"\n"+after;
+   const renumbered=autoNumberNotebookText(combined,newLineIdx,false);
+   const resultLines=renumbered.split("\n");
+
+   let cursorPos=0;
+   for(let i=0;i<newLineIdx;i++){
+    cursorPos+=resultLines[i].length+1;
+   }
+   cursorPos+=resultLines[newLineIdx].length;
+
+   ta.value=renumbered;
+   ta.selectionStart=ta.selectionEnd=cursorPos;
+   syncNotebookDataOnly(sheetId,ta.value);
+   updateNotebookLinePhotoPreview(sheetId);
+  }
+ }
+}
+
+function onNotebookPaste(e,sheetId){
+ const ta=e.target;
+ setTimeout(()=>{
+  const formatted=autoNumberNotebookText(ta.value,-1,true);
+  if(formatted!==ta.value){
+   ta.value=formatted;
+  }
+  syncNotebookDataOnly(sheetId,ta.value);
+  updateNotebookLinePhotoPreview(sheetId);
+ },15);
+}
+
+function syncNotebookDataOnly(sheetId,val){
+ ensureNotebookSheets();
+ const s=data.notebook.sheets.find(x=>x.id===sheetId);
+ if(s){
+  s.text=val;
+  if(data.notebook.sheets[0]&&data.notebook.sheets[0].id===sheetId){
+   data.notebook.quickText=val;
+  }
+ }
+ saveLocalSilent();
+ const noteSearchEl=el("noteSearch");
+ if(noteSearchEl&&(noteSearchEl.value||"").trim()){
+  searchNotebookAll();
+ }
+}
+
+function onNotebookSheetInput(sheetId,taOrVal){
+ const ta=(typeof taOrVal==="object"&&taOrVal!==null)?taOrVal:el("nb_text_"+sheetId);
+ if(!ta){
+  syncNotebookDataOnly(sheetId,String(taOrVal||""));
+  return;
+ }
+
+ const raw=ta.value;
+ const selStart=ta.selectionStart??raw.length;
+
+ const beforeCursor=raw.slice(0,selStart);
+ const linesBefore=beforeCursor.split(/\r?\n/);
+ const curLineIdx=linesBefore.length-1;
+ const allLines=raw.split(/\r?\n/);
+ const curLineFull=allLines[curLineIdx]||"";
+ const curLineTrimmed=curLineFull.trim();
+
+ const isTypingEmptyPrefix=/^\d+[\.\)\-\s:]*$/.test(curLineTrimmed);
+
+ const renumbered=autoNumberNotebookText(raw,isTypingEmptyPrefix?curLineIdx:-1,false);
+
+ if(renumbered!==raw){
+  const savedTaScroll=ta.scrollTop;
+  const newLines=renumbered.split("\n");
+  const oldPrefixMatch=curLineFull.match(/^(\s*\d+[\.\)\-\s:]*)/);
+  const oldPrefixLen=oldPrefixMatch?oldPrefixMatch[1].length:0;
+  const typedPartBeforeCursor=linesBefore[curLineIdx].slice(oldPrefixLen);
+
+  const safeLineIdx=Math.min(curLineIdx,newLines.length-1);
+  const newLineStr=newLines[safeLineIdx]||"";
+  const newPrefixMatch=newLineStr.match(/^(\s*\d+[\.\)\-\s:]*)/);
+  const newPrefixLen=newPrefixMatch?newPrefixMatch[1].length:0;
+
+  let newCursorPos=0;
+  for(let i=0;i<safeLineIdx;i++){
+   newCursorPos+=newLines[i].length+1;
+  }
+  newCursorPos+=Math.min(newLineStr.length,newPrefixLen+typedPartBeforeCursor.length);
+
+  ta.value=renumbered;
+  ta.selectionStart=ta.selectionEnd=newCursorPos;
+  ta.scrollTop=savedTaScroll;
+ }
+
+ syncNotebookDataOnly(sheetId,ta.value);
+ updateNotebookLinePhotoPreview(sheetId);
+}
+
+async function saveNotebookSheet(sheetId){
+ ensureNotebookSheets();
+ const ta=el("nb_text_"+sheetId);
+ const s=data.notebook.sheets.find(x=>x.id===sheetId);
+ if(s&&ta){
+  const formatted=autoNumberNotebookText(ta.value,-1,true);
+  ta.value=formatted;
+  s.text=formatted;
+ }
+ if(data.notebook.sheets[0]){
+  data.notebook.quickText=data.notebook.sheets[0].text||"";
+ }
+ try{
+  await saveCloud();
+  const noteSearchEl=el("noteSearch");
+  if(noteSearchEl&&(noteSearchEl.value||"").trim())searchNotebookAll();
+  alert("Notebook saved successfully!");
+ }catch(e){
+  alert("सेव नहीं हुआ: "+friendlyError(e));
+ }
+}
+
+async function addNewNotebookSheet(){
+ ensureNotebookSheets();
+ data.notebook.sheets.forEach(s=>{
+  const ta=el("nb_text_"+s.id);
+  if(ta)s.text=ta.value;
+ });
+ if(data.notebook.sheets[0]){
+  data.notebook.quickText=data.notebook.sheets[0].text||"";
+ }
+
+ const newSheet={id:makeId(),text:"1. ",photo:"",photos:{},qrImage:""};
+ data.notebook.sheets.push(newSheet);
+ renderNotebookSheets();
+
+ try{
+  await saveCloud();
+ }catch(e){}
+
+ const newTa=el("nb_text_"+newSheet.id);
+ if(newTa){
+  newTa.scrollIntoView({behavior:"smooth",block:"center"});
+  newTa.focus();
+  newTa.selectionStart=newTa.selectionEnd=newTa.value.length;
+ }
+}
+
+async function deleteNotebookSheet(sheetId){
+ if(!confirm("क्या आप इस नोटबुक लिस्ट को हटाना चाहते हैं?"))return;
+ ensureNotebookSheets();
+ data.notebook.sheets=data.notebook.sheets.filter(x=>x.id!==sheetId);
+ if(!data.notebook.sheets.length){
+  data.notebook.sheets=[{id:"nb_1",text:"",photo:"",photos:{},qrImage:""}];
+ }
+ data.notebook.quickText=data.notebook.sheets[0].text||"";
+ renderNotebookSheets();
+ const noteSearchEl=el("noteSearch");
+ if(noteSearchEl&&(noteSearchEl.value||"").trim())searchNotebookAll();
+ try{
+  await saveCloud();
+ }catch(e){
+  alert("Delete नहीं हुआ: "+friendlyError(e));
+ }
+}
+
+function searchNotebookAll(){
+ ensureNotebookSheets();
+ const noteSearchEl=el("noteSearch");
+ const q=noteSearchEl?(noteSearchEl.value||"").trim().toLowerCase():"";
+
+ const box=el("noteSearchResults");
+ if(!box) return;
+ if(!q){
+  box.classList.add("hidden");
+  box.innerHTML="";
+  return;
+ }
+
+ const matches=[];
+ data.notebook.sheets.forEach((sheet,idx)=>{
+  const ta=el("nb_text_"+sheet.id);
+  const fullText=ta?ta.value:(sheet.text||"");
+  const lines=fullText.split(/\r?\n/);
+  for(const line of lines){
+   if(line.trim()&&line.toLowerCase().includes(q)){
+    matches.push({listNum:idx+1,line:line.trim()});
+   }
+  }
+ });
+
+ let html='<div style="font-weight:bold;font-size:13px;color:#183b67;margin-bottom:6px">🔍 SEARCH RESULTS ('+matches.length+')</div>';
+
+ if(matches.length){
+  html+=matches.map(m=>`
+   <div class="search-match"><b>List #${m.listNum}:</b> ${escapeHTML(m.line)}</div>
+  `).join("");
+ }else{
+  html+='<p class="muted">नोटबुक में इससे मिलता-जुलता कोई प्रोडक्ट या नाम नहीं मिला।</p>';
+ }
+
+ box.innerHTML=html;
+ box.classList.remove("hidden");
+}
+
+/* CONVERT NOTEBOOK SHEET INTO SHAREABLE ITEMS LIST */
+async function shareNotebookList(sheetIdx){
+ ensureNotebookSheets();
+ const sheet=data.notebook.sheets[sheetIdx];
+ if(!sheet)return;
+
+ const ta=el("nb_text_"+sheet.id);
+ const text=ta?ta.value:(sheet.text||"");
+ const lines=text.split(/\r?\n/);
+
+ const items=[];
+ for(let idx=0; idx<lines.length; idx++){
+  const line=lines[idx];
+  const trimmed=line.trim();
+  if(!trimmed)continue;
+  const mSell=trimmed.match(/\bS\s*[:=\-]?\s*(\d+(?:\.\d+)?)/i);
+  const mBuy=trimmed.match(/\bB\s*[:=\-]?\s*(\d+(?:\.\d+)?)/i);
+  const mPC=trimmed.match(/\bPC\s*[:=\-]?\s*(\d+)/i);
+  const cleanName=trimmed
+   .replace(/\b(?:PC|[BS]|PH)\s*[:=\-]?\s*\d+(?:\.\d+)?/gi,"")
+   .replace(/^\s*\d+[\.\)\-\s:]*/,"")
+   .trim();
+
+  const linePhoto=(sheet.photos&&sheet.photos[idx])?sheet.photos[idx]:(sheet.photo||"");
+
+  if(cleanName||mSell){
+   items.push({
+    id:makeId(),
+    name:cleanName||"Item",
+    sell:mSell?Number(mSell[1]):0,
+    buy:mBuy?Number(mBuy[1]):0,
+    pc:mPC?Number(mPC[1]):0,
+    photo:linePhoto,
+    qrImage:sheet.qrImage||""
+   });
+  }
+ }
+
+ if(!items.length){
+  alert("इस नोटबुक लिस्ट में शेयर करने के लिए कोई आइटम नहीं है।");
+  return;
+ }
+
+ const fakeListId="nb_share_"+sheet.id;
+ const sharePayload={
+  shop:data.settings.shopName||"i.S Wholesale Communication",
+  shopDP:data.settings.shopDP||"",
+  address:data.settings.shopAddress||"",
+  mobile:data.settings.mobile||"",
+  whatsappNo:data.settings.whatsappNo||data.settings.mobile||"",
+  upi:data.settings.upi||"",
+  qrImage:data.settings.qrImage||"",
+  isNotebook:true,
+  sharedAt:Date.now(),
+  list:{
+   id:fakeListId,
+   name:"Notebook List #"+(sheetIdx+1),
+   items:items
+  }
+ };
+
+ try{
+  await publicListRef(currentUser.uid,fakeListId).set(sharePayload);
+  const url=location.href.split("#")[0]+
+   "#view="+encodeURIComponent(currentUser.uid)+"/"+
+   encodeURIComponent(fakeListId);
+
+  if(navigator.share){
+   navigator.share({
+    title:"Notebook List #"+(sheetIdx+1),
+    text:data.settings.shopName+" - Notebook List",
+    url:url
+   }).catch(()=>copyLink(url));
+  }else{
+   copyLink(url);
+  }
+ }catch(e){
+  alert("Share link नहीं बना: "+friendlyError(e));
+ }
+}
+
+/* CREATE AND EDIT LIST WITH PH (PHOTO) & PC (PIECES) */
+
+function resetItemForm(){
+ editingItemId=null;
+ formItemQR="";
+ formItemPhoto="";
+ const headingEl=el("itemFormHeading");
+ if(headingEl) headingEl.textContent="ADD ITEM";
+ const itemNameEl=el("itemName");
+ if(itemNameEl) itemNameEl.value="";
+ const sellPriceEl=el("sellPrice");
+ if(sellPriceEl) sellPriceEl.value="";
+ const buyPriceEl=el("buyPrice");
+ if(buyPriceEl) buyPriceEl.value="";
+ const itemPCEl=el("itemPC");
+ if(itemPCEl) itemPCEl.value="";
+ const addBtn=el("addOrUpdateItemBtn");
+ if(addBtn){
+  addBtn.textContent="＋ ADD ITEM";
+  addBtn.className="green";
+ }
+ const cancelBtn=el("cancelEditItemBtn");
+ if(cancelBtn) cancelBtn.classList.add("hidden");
+ updateFormQRBadge();
+ updateFormPHBadge();
+}
+
+function newList(){
+ currentId=null;
+ tempItems=[];
+
+ const listNameEl=el("listName");
+ if(listNameEl) listNameEl.value="";
+ const editorSearchEl=el("editorSearch");
+ if(editorSearchEl) editorSearchEl.value="";
+ resetItemForm();
+
+ renderEditorItems();
+ show("editor");
+}
+
+function editList(id){
+ const list=data.lists.find(x=>x.id===id);
+ if(!list)return;
+
+ currentId=id;
+ tempItems=JSON.parse(JSON.stringify(list.items||[]));
+
+ const listNameEl=el("listName");
+ if(listNameEl) listNameEl.value=list.name;
+ const editorSearchEl=el("editorSearch");
+ if(editorSearchEl) editorSearchEl.value="";
+ resetItemForm();
+
+ renderEditorItems();
+ show("editor");
+}
+
+function startEditItem(itemId){
+ const item=tempItems.find(x=>x.id===itemId);
+ if(!item)return;
+
+ editingItemId=item.id;
+ formItemQR=item.qrImage||"";
+ formItemPhoto=item.photo||"";
+
+ const headingEl=el("itemFormHeading");
+ if(headingEl) headingEl.textContent="✏️ EDIT ITEM: "+item.name;
+ const itemNameEl=el("itemName");
+ if(itemNameEl) itemNameEl.value=item.name;
+ const sellPriceEl=el("sellPrice");
+ if(sellPriceEl) sellPriceEl.value=item.sell;
+ const buyPriceEl=el("buyPrice");
+ if(buyPriceEl) buyPriceEl.value=item.buy;
+ const itemPCEl=el("itemPC");
+ if(itemPCEl) itemPCEl.value=(item.pc!==undefined&&item.pc!==null)?item.pc:"";
+ const addBtn=el("addOrUpdateItemBtn");
+ if(addBtn){
+  addBtn.textContent="✓ UPDATE ITEM";
+  addBtn.className="amber";
+ }
+ const cancelBtn=el("cancelEditItemBtn");
+ if(cancelBtn) cancelBtn.classList.remove("hidden");
+ updateFormQRBadge();
+ updateFormPHBadge();
+
+ if(headingEl) headingEl.scrollIntoView({behavior:"smooth"});
+}
+
+function cancelEditItem(){
+ resetItemForm();
+}
+
+function addItem(){
+ const nameEl=el("itemName");
+ const stEl=el("sellPrice");
+ const btEl=el("buyPrice");
+ const ptEl=el("itemPC");
+
+ const name=nameEl?nameEl.value.trim():"";
+ const st=stEl?stEl.value:"";
+ const bt=btEl?btEl.value:"";
+ const pt=ptEl?ptEl.value:"";
+
+ const sell=Number(st);
+ const buy=Number(bt);
+ const pc=pt===""?0:Math.max(0,Math.floor(Number(pt)||0));
+
+ if(!name||st===""||bt===""){
+  alert("Please enter item name and both prices.");
+  return;
+ }
+
+ if(!Number.isFinite(sell)||!Number.isFinite(buy)||sell<0||buy<0){
+  alert("Please enter valid prices.");
+  return;
+ }
+
+ if(editingItemId){
+  const idx=tempItems.findIndex(x=>x.id===editingItemId);
+  if(idx!==-1){
+   tempItems[idx]={
+    ...tempItems[idx],
+    name:name,
+    sell:sell,
+    buy:buy,
+    pc:pc,
+    photo:formItemPhoto,
+    qrImage:formItemQR
+   };
+  }
+  resetItemForm();
+ }else{
+  tempItems.push({
+   id:makeId(),
+   name:name,
+   sell:sell,
+   buy:buy,
+   pc:pc,
+   photo:formItemPhoto,
+   qrImage:formItemQR
+  });
+  resetItemForm();
+ }
+
+ renderEditorItems();
+}
+
+function removeTemp(id){
+ if(editingItemId===id)resetItemForm();
+ tempItems=tempItems.filter(i=>i.id!==id);
+ renderEditorItems();
+}
+
+function renderEditorItems(){
+ const itemTotalEl=el("itemTotal");
+ if(itemTotalEl) itemTotalEl.textContent=tempItems.length;
+
+ const editorSearchEl=el("editorSearch");
+ const q=editorSearchEl?(editorSearchEl.value||"").trim().toLowerCase():"";
+
+ const filtered=tempItems.filter(i=>
+  i.name.toLowerCase().includes(q)
+ );
+
+ const editorItemsEl=el("editorItems");
+ if(!editorItemsEl) return;
+ editorItemsEl.innerHTML=filtered.length
+ ?filtered.map((item,index)=>`
+  <div class="item">
+   <div class="item-flex-row">
+    ${item.photo?`<img src="${item.photo}" class="prod-thumb" onclick="openFullImage('${item.photo}')" alt="${escapeHTML(item.name)}">`:""}
+    <div style="flex:1;min-width:0">
+     <div class="row">
+      <div class="item-name">${index+1}. ${escapeHTML(item.name)}</div>
+      <span class="badge ${item.qrImage?'badge-green':''}" style="flex:0 0 auto">
+       ${item.qrImage?'नया QR सेव है ✓':'मुख्य QR'}
+      </span>
+     </div>
+     <p class="muted" style="margin:6px 0 2px">Sell Price: <b>${money(item.sell)}</b></p>
+     <p class="muted" style="margin:2px 0">Buy Price: <b>${money(item.buy)}</b></p>
+     <p class="muted" style="margin:2px 0">PC (Stock): <b>${Number(item.pc||0)} PC</b></p>
+     <p class="price" style="margin:6px 0">Profit: ${money(item.sell-item.buy)}</p>
+    </div>
+   </div>
+
+   <div class="actions">
+    <button type="button" class="primary" onclick="triggerExistingItemPhoto('${item.id}')">📸 PH: फोटो जोड़ें</button>
+    <button type="button" class="primary" onclick="triggerExistingItemQR('${item.id}')">➕ QR कोड</button>
+    <button type="button" class="green" onclick="viewExistingItemQR('${item.id}')">👁️ QR देखें</button>
+    <button type="button" class="amber" onclick="openCashSale('${item.id}')">💵 CASH</button>
+   </div>
+
+   <div class="actions">
+    <button type="button" class="amber" onclick="startEditItem('${item.id}')">✏️ EDIT ITEM</button>
+    <button type="button" class="red" onclick="removeTemp('${item.id}')">REMOVE ITEM</button>
+   </div>
+  </div>
+ `).join("")
+ :'<p class="muted">कोई प्रोडक्ट नहीं मिला।</p>';
+}
+
+function salesArray(){if(!Array.isArray(data.sales))data.sales=[];return data.sales;}
+function addSaleRecord(item,qty,type,details){
+ const now=new Date();
+ salesArray().unshift({id:makeId(),itemId:item.id,name:item.name,photo:item.photo||"",unitPrice:Number(item.sell||0),qty:Number(qty),total:Number(item.sell||0)*Number(qty),type:type,details:details||"",date:now.toISOString(),listId:currentId||""});
+}
+function openCashSale(itemId){
+ const item=tempItems.find(x=>x.id===itemId);if(!item)return;
+ activeCashItemId=itemId;el("cashSaleQty").value="";
+ el("cashSaleProduct").innerHTML=(item.photo?'<img src="'+item.photo+'" style="width:82px;height:82px;object-fit:cover;border-radius:10px">':'')+'<h3 style="color:#183b67;margin:8px 0">'+escapeHTML(item.name)+'</h3><p>Price: <b>'+money(Number(item.sell||0))+'</b> / PC</p><p>Available Stock: <b>'+Number(item.pc||0)+' PC</b></p>';
+ updateCashSaleTotal();el("cashSaleModal").classList.remove("hidden");
+}
+function updateCashSaleTotal(){const item=tempItems.find(x=>x.id===activeCashItemId);if(!item)return;const raw=el("cashSaleQty").value.trim();const qty=raw===""?1:Math.max(1,Math.floor(Number(raw)||1));el("cashSaleTotal").textContent=money(Number(item.sell||0)*qty);}
+function closeCashSale(){el("cashSaleModal").classList.add("hidden");activeCashItemId=null;}
+async function confirmCashSale(){
+ const item=tempItems.find(x=>x.id===activeCashItemId);if(!item)return;
+ const raw=el("cashSaleQty").value.trim();const qty=raw===""?1:Math.floor(Number(raw));
+ if(!Number.isFinite(qty)||qty<1){alert("कृपया सही quantity डालें।");return;}
+ if(qty>Number(item.pc||0)){alert("स्टॉक में केवल "+Number(item.pc||0)+" PC उपलब्ध हैं।");return;}
+ item.pc=Number(item.pc||0)-qty;addSaleRecord(item,qty,"Cash Sale","Cash");
+ const saved=data.lists.find(l=>l.id===currentId);if(saved){const si=(saved.items||[]).find(x=>x.id===item.id);if(si)si.pc=item.pc;}
+ renderEditorItems();closeCashSale();
+ try{await saveCloud();}catch(e){saveLocalSilent();alert("बिक्री इस डिवाइस में सेव हुई, लेकिन Cloud sync नहीं हो पाया।");}
+ renderSalesList();
+}
+function showSalesList(){renderSalesList();const area=el("salesListArea");if(area)area.classList.remove("hidden");}
+function closeSalesList(){const area=el("salesListArea");if(area)area.classList.add("hidden");}
+function renderSalesList(){
+ const rows=salesArray().slice().sort((a,b)=>new Date(b.date)-new Date(a.date));
+ const groups={};
+ rows.forEach(r=>{const d=new Date(r.date);const key=isNaN(d.getTime())?"Unknown date":d.toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});(groups[key]||(groups[key]=[])).push(r);});
+ const todayKey=new Date().toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
+ const todayRows=groups[todayKey]||[];
+ const sum=(arr,type)=>arr.filter(r=>r.type===type).reduce((a,r)=>a+Number(r.total||0),0);
+ const todayOnline=sum(todayRows,"Online Sale"),todayCash=sum(todayRows,"Cash Sale");
+ el("salesSummary").innerHTML='<h3 style="margin:0 0 9px">आज का हिसाब — '+new Date().toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long",year:"numeric"})+'</h3><div class="sales-date-totals"><div class="stat">ONLINE TOTAL<b>'+money(todayOnline)+'</b></div><div class="stat">CASH TOTAL<b>'+money(todayCash)+'</b></div><div class="stat">GRAND TOTAL<b>'+money(todayOnline+todayCash)+'</b></div></div>';
+ const renderColumn=(list,type,label,dateLabel,total)=>'<div class="sales-column"><h4>'+label+'</h4><div class="sales-column-date">📅 '+dateLabel+'</div>'+(list.length?list.map(r=>'<div class="sales-entry"><div class="item-flex-row">'+(r.photo?'<img class="prod-thumb" src="'+r.photo+'" alt="'+escapeHTML(r.name||"Product")+'">':'<div class="prod-thumb" style="display:flex;align-items:center;justify-content:center">📦</div>')+'<div style="flex:1;min-width:0"><div class="sales-entry-name">'+escapeHTML(r.name||"Item")+'</div><div class="sales-entry-meta">Price: '+money(Number(r.unitPrice||0))+' × '+Number(r.qty||0)+' PCS</div><div class="sales-entry-total">Amount: '+money(Number(r.total||0))+'</div><div class="sales-entry-meta">'+escapeHTML(r.details||"")+' · '+new Date(r.date).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})+'</div></div></div><div class="actions"><button type="button" class="amber" onclick="editSaleRecord(\''+r.id+'\')">✏️ EDIT</button><button type="button" class="red" onclick="deleteSaleRecord(\''+r.id+'\')">DELETE</button></div></div>').join(""):'<p class="muted">इस तारीख की कोई '+(type==="Online Sale"?"ऑनलाइन":"कैश")+' बिक्री नहीं।</p>')+'<div class="sales-column-total">'+(type==="Online Sale"?"TOTAL ONLINE SALE: ":"TOTAL CASH SALE: ")+money(total)+'</div></div>';
+ el("salesRecords").innerHTML=rows.length?Object.keys(groups).map(key=>{const day=groups[key],online=sum(day,"Online Sale"),cash=sum(day,"Cash Sale");return '<section class="sales-date-block"><div class="sales-columns">'+renderColumn(day.filter(r=>r.type==="Online Sale"),"Online Sale","🌐 ONLINE SALES",key,online)+renderColumn(day.filter(r=>r.type==="Cash Sale"),"Cash Sale","💵 CASH SALES",key,cash)+'</div><div class="sales-day-summary"><div class="stat">TOTAL ONLINE PAYMENT<b>'+money(online)+'</b></div><div class="stat">TOTAL CASH PAYMENT<b>'+money(cash)+'</b></div><div class="stat">DAY TOTAL<b>'+money(online+cash)+'</b></div></div></section>';}).join(""):'<p class="muted">अभी कोई बिक्री दर्ज नहीं है।</p>';
+}
+async function editSaleRecord(id){const r=salesArray().find(x=>x.id===id);if(!r)return;const q=prompt("Quantity (PC):",r.qty);if(q===null)return;const qty=Math.floor(Number(q));if(!Number.isFinite(qty)||qty<1){alert("Invalid quantity");return;}const diff=qty-Number(r.qty||0);const list=data.lists.find(l=>l.id===r.listId);const item=list&&(list.items||[]).find(i=>i.id===r.itemId);if(item&&diff>0&&Number(item.pc||0)<diff){alert("स्टॉक पर्याप्त नहीं है।");return;}if(item)item.pc=Math.max(0,Number(item.pc||0)-diff);r.qty=qty;r.total=Number(r.unitPrice||0)*qty;const d=prompt("Payment details:",r.details||"");if(d!==null)r.details=d;try{await saveCloud();}catch(e){saveLocalSilent();}renderSalesList();}
+async function deleteSaleRecord(id){const r=salesArray().find(x=>x.id===id);if(!r||!confirm("इस बिक्री का रिकॉर्ड हटाएँ?"))return;const list=data.lists.find(l=>l.id===r.listId);const item=list&&(list.items||[]).find(i=>i.id===r.itemId);if(item)item.pc=Number(item.pc||0)+Number(r.qty||0);data.sales=salesArray().filter(x=>x.id!==id);try{await saveCloud();}catch(e){saveLocalSilent();}renderSalesList();}
+
+async function saveList(){
+ const listNameEl=el("listName");
+ const name=listNameEl?listNameEl.value.trim():"";
+
+ if(!name){
+  alert("Please enter list name.");
+  return;
+ }
+
+ if(!tempItems.length){
+  alert("Please add at least one item.");
+  return;
+ }
+
+ if(currentId){
+  const l=data.lists.find(x=>x.id===currentId);
+  if(!l)return;
+
+  l.name=name;
+  l.items=JSON.parse(JSON.stringify(tempItems));
+ }else{
+  const newId=makeId();
+
+  data.lists.push({
+   id:newId,
+   name:name,
+   items:JSON.parse(JSON.stringify(tempItems)),
+   isShared:false
+  });
+
+  currentId=newId;
+ }
+
+ try{
+  await saveCloud();
+
+  const saved=data.lists.find(x=>x.id===currentId);
+
+  if(saved&&saved.isShared){
+   await publicListRef(currentUser.uid,saved.id)
+    .set(cleanPublicPayload(saved));
+  }
+
+  alert("List saved successfully!");
+  backDashboard();
+
+ }catch(e){
+  alert("डेटा सेव नहीं हुआ: "+friendlyError(e));
+ }
+}
+
+async function deleteList(id){
+ if(!confirm("Are you sure you want to delete this list?"))return;
+
+ data.lists=data.lists.filter(x=>x.id!==id);
+
+ try{
+  await saveCloud();
+  await publicListRef(currentUser.uid,id).remove();
+  renderDashboard();
+ }catch(e){
+  alert("Delete नहीं हुआ: "+friendlyError(e));
+ }
+}
+
+/* BUSINESS SETTINGS: CUSTOMER DP (MAX 2MB CHECK) + MANDATORY ADDRESS & MOBILE NUMBER */
+
+function showDPError(msg){
+ const errEl=el("dpSizeError");
+ if(!errEl) return;
+ if(!msg){
+  errEl.textContent="";
+  errEl.classList.add("hidden");
+ }else{
+  errEl.textContent=msg;
+  errEl.classList.remove("hidden");
+ }
+}
+
+function renderDPPreview(){
+ const dp=data.settings.shopDP||"";
+ const box=el("uploadedDPBox");
+ const img=el("uploadedDPImg");
+ if(!box||!img) return;
+ if(dp){
+  img.src=dp;
+  box.classList.remove("hidden");
+ }else{
+  img.src="";
+  box.classList.add("hidden");
+ }
+}
+
+const dpUploadEl=el("dpUpload");
+if(dpUploadEl){
+ dpUploadEl.addEventListener("change",function(){
+  const file=this.files[0];
+  showDPError("");
+  if(!file)return;
+
+  if(!file.type.startsWith("image/")){
+   this.value="";
+   showDPError("⚠️ कृपया केवल सही फोटो (JPG/PNG) ही चुनें।");
+   return;
+  }
+
+  if(file.size>MAX_DP_BYTES){
+   const mb=(file.size/(1024*1024)).toFixed(2);
+   this.value="";
+   showDPError("⚠️ इमेज का साइज बहुत बड़ा है ("+mb+" MB)! कृपया अधिकतम 2 MB तक की इमेज अपलोड करें।");
+   return;
+  }
+
+  dpProcessing=true;
+  const saveBtn=el("saveSettingsBtn");
+  if(saveBtn){
+   saveBtn.disabled=true;
+   saveBtn.textContent="DP तैयार हो रही है...";
+  }
+
+  readAndResizeImage(file,260,0.82,async resizedDP=>{
+   dpProcessing=false;
+   if(saveBtn){
+    saveBtn.disabled=false;
+    saveBtn.textContent="SAVE DETAILS";
+   }
+
+   if(!resizedDP){
+    showDPError("⚠️ इमेज पढ़ने में समस्या हुई, कृपया दूसरी 2 MB तक की इमेज चुनें।");
+    return;
+   }
+
+   data.settings.shopDP=resizedDP;
+   renderDPPreview();
+   saveLocalSilent();
+   try{
+    await saveCloud();
+   }catch(e){}
+  });
+ });
+}
+
+async function removeShopDP(){
+ data.settings.shopDP="";
+ const dpEl=el("dpUpload");
+ if(dpEl) dpEl.value="";
+ showDPError("");
+ renderDPPreview();
+ saveLocalSilent();
+ try{
+  await saveCloud();
+ }catch(e){}
+}
+
+function updateSettingsLockState(){
+ const valid=isSettingsFieldsValid();
+ const backBtn=el("settingsBackBtn");
+ const notice=el("profileRequiredNotice");
+ if(backBtn) backBtn.style.opacity=valid?"1":"0.5";
+ if(notice){
+  if(valid) notice.classList.add("hidden");
+  else notice.classList.remove("hidden");
+ }
+}
+
+function tryBackFromSettings(){
+ if(dpProcessing)return;
+ if(!isSettingsFieldsValid()||!isSavedProfileComplete()){
+  updateSettingsLockState();
+  const shopAddrEl=el("shopAddress");
+  const mobileEl=el("mobile");
+  const addr=shopAddrEl?String(shopAddrEl.value||"").trim():"";
+  if(addr.length<2){
+   if(shopAddrEl) shopAddrEl.focus();
+  }else{
+   if(mobileEl) mobileEl.focus();
+  }
+  return;
+ }
+ backDashboard();
+}
+
+function showSettings(){
+ const s=data.settings;
+
+ const shopNameEl=el("shopName");
+ if(shopNameEl) shopNameEl.value=s.shopName||"";
+ const shopAddressEl=el("shopAddress");
+ if(shopAddressEl) shopAddressEl.value=s.shopAddress||"";
+ const mobileEl=el("mobile");
+ if(mobileEl) mobileEl.value=s.mobile||"";
+ const whatsappNoEl=el("whatsappNo");
+ if(whatsappNoEl) whatsappNoEl.value=s.whatsappNo||"";
+ const upiEl=el("upi");
+ if(upiEl) upiEl.value=s.upi||"";
+ const phonepeEl=el("phonepe");
+ if(phonepeEl) phonepeEl.value=s.phonepe||"";
+ const paytmEl=el("paytm");
+ if(paytmEl) paytmEl.value=s.paytm||"";
+ const gpayEl=el("gpay");
+ if(gpayEl) gpayEl.value=s.gpay||"";
+ const dpUploadInput=el("dpUpload");
+ if(dpUploadInput) dpUploadInput.value="";
+ showDPError("");
+
+ renderDPPreview();
+ updateSettingsLockState();
+
+ const activeQR=s.qrImage||DEFAULT_SHOP_QR_SVG;
+ const uploadedQREl=el("uploadedQR");
+ if(uploadedQREl){
+  uploadedQREl.innerHTML=
+   '<img id="defaultShopQR" alt="Shop QR" src="'+activeQR+'" onclick="openFullQR(this.src,\'मुख्य दुकान QR कोड\',\'पूरी स्क्रीन पर QR\')" style="cursor:pointer">';
+ }
+
+ show("settings");
+}
+
+async function saveSettings(){
+ if(dpProcessing)return;
+
+ const shopAddressEl=el("shopAddress");
+ const mobileEl=el("mobile");
+ const addrVal=shopAddressEl?shopAddressEl.value.trim():"";
+ const mobRaw=mobileEl?mobileEl.value.trim():"";
+ const mobDigits=mobRaw.replace(/\D/g,"");
+
+ if(!addrVal||addrVal.length<2){
+  updateSettingsLockState();
+  if(shopAddressEl) shopAddressEl.focus();
+  return;
+ }
+
+ if(!mobRaw||mobDigits.length<10){
+  updateSettingsLockState();
+  if(mobileEl) mobileEl.focus();
+  return;
+ }
+
+ const s=data.settings;
+
+ const shopNameEl=el("shopName");
+ const upiEl=el("upi");
+ const phonepeEl=el("phonepe");
+ const paytmEl=el("paytm");
+ const gpayEl=el("gpay");
+ const whatsappNoEl=el("whatsappNo");
+
+ s.shopName=shopNameEl?shopNameEl.value.trim()||"i.S Wholesale Communication":"i.S Wholesale Communication";
+ s.shopAddress=addrVal;
+ s.mobile=mobRaw;
+ s.whatsappNo=whatsappNoEl?whatsappNoEl.value.trim()||mobRaw:mobRaw;
+ s.upi=upiEl?upiEl.value.trim():"";
+ s.phonepe=phonepeEl?phonepeEl.value.trim():"";
+ s.paytm=paytmEl?paytmEl.value.trim():"";
+ s.gpay=gpayEl?gpayEl.value.trim():"";
+
+ saveLocalSilent();
+
+ try{
+  await saveCloud();
+
+  for(const l of data.lists){
+   if(l.isShared){
+    await publicListRef(currentUser.uid,l.id)
+     .set(cleanPublicPayload(l));
+   }
+  }
+ }catch(e){}
+
+ backDashboard();
+}
+
+/* UPLOAD MAIN SHOP PAYMENT QR */
+
+const qrUploadEl=el("qrUpload");
+if(qrUploadEl){
+ qrUploadEl.addEventListener("change",function(){
+  const file=this.files[0];
+  if(!file)return;
+
+  if(!file.type.startsWith("image/")){
+   this.value="";
+   return;
+  }
+
+  readAndResizeQR(file,async resizedDataUrl=>{
+   const old=data.settings.qrImage;
+   data.settings.qrImage=resizedDataUrl;
+
+   try{
+    await saveCloud();
+
+    const uploadedQREl=el("uploadedQR");
+    if(uploadedQREl){
+     uploadedQREl.innerHTML=
+      '<img id="defaultShopQR" alt="Shop QR" src="'+resizedDataUrl+'" onclick="openFullQR(this.src,\'मुख्य दुकान QR कोड\',\'पूरी स्क्रीन पर QR\')" style="cursor:pointer">';
+    }
+
+    for(const l of data.lists){
+     if(l.isShared){
+      await publicListRef(currentUser.uid,l.id)
+       .set(cleanPublicPayload(l));
+     }
+    }
+
+   }catch(e){
+    data.settings.qrImage=old;
+   }
+  });
+ });
+}
+
+/* SHARE LIST WITH CUSTOMERS */
+
+async function shareList(id){
+ const list=data.lists.find(x=>x.id===id);
+ if(!list)return;
+
+ list.isShared=true;
+
+ try{
+  await saveCloud();
+
+  await publicListRef(currentUser.uid,id)
+   .set(cleanPublicPayload(list));
+  await publicListRef(currentUser.uid,id).update({sharedAt:Date.now()});
+
+  const url=location.href.split("#")[0]+
+   "#view="+encodeURIComponent(currentUser.uid)+"/"+
+   encodeURIComponent(id);
+
+  if(navigator.share){
+   navigator.share({
+    title:list.name,
+    text:data.settings.shopName+" - Product List (WhatsApp: "+(data.settings.whatsappNo||data.settings.mobile)+")",
+    url:url
+   }).catch(()=>copyLink(url));
+  }else{
+   copyLink(url);
+  }
+
+ }catch(e){
+  alert("Share link नहीं बना: "+friendlyError(e));
+ }
+}
+
+function copyLink(url){
+ if(navigator.clipboard&&window.isSecureContext){
+  navigator.clipboard.writeText(url)
+   .then(()=>alert("Customer link copied successfully!"))
+   .catch(()=>prompt("Copy customer link:",url));
+ }else{
+  prompt("Copy customer link:",url);
+ }
+}
+
+/* CUSTOMER PERSISTENT CART & DETAILS */
+
+function customerLocalCartKey(){
+ return "is_wholesale_cart_"+customerShareUid+"_"+customerShareListId;
+}
+
+function loadCustomerSavedInfo(){
+ try{
+  const raw=localStorage.getItem(LOCAL_CUSTOMER_INFO_KEY);
+  if(raw)customerInfo=JSON.parse(raw)||{name:"",mobile:"",address:""};
+ }catch(e){}
+}
+
+function saveCustomerSavedInfo(){
+ try{localStorage.setItem(LOCAL_CUSTOMER_INFO_KEY,JSON.stringify(customerInfo));}catch(e){}
+}
+
+async function syncCustomerSavedInfoFromFirebase(){
+ loadCustomerSavedInfo();
+ try{
+  const snap=await customerProfileRef().once("value");
+  const cloud=snap.val();
+  if(cloud&&cloud.name&&cloud.mobile&&cloud.address){
+   customerInfo={name:String(cloud.name),mobile:String(cloud.mobile),address:String(cloud.address)};
+   saveCustomerSavedInfo();
+  }else if(customerInfo.name&&customerInfo.mobile&&customerInfo.address){
+   await customerProfileRef().set(customerInfo);
+  }
+ }catch(e){
+  console.warn("Customer profile Firebase sync failed:",e);
+ }
+}
+
+async function saveCustomerDetailsPrompt(){
+ const custInputNameEl=el("custInputName");
+ const custInputMobileEl=el("custInputMobile");
+ const custInputAddressEl=el("custInputAddress");
+ const name=custInputNameEl?custInputNameEl.value.trim():"";
+ const mobile=custInputMobileEl?custInputMobileEl.value.trim():"";
+ const address=custInputAddressEl?custInputAddressEl.value.trim():"";
+ if(!name||mobile.replace(/\D/g,"").length<10||!address){
+  alert("कृपया अपना सही नाम, 10 अंकों का मोबाइल नंबर और पूरा पता दर्ज करें।");
+  return;
+ }
+ customerInfo={name,mobile,address};
+ saveCustomerSavedInfo();
+ try{
+  await customerProfileRef().set({...customerInfo,updatedAt:Date.now()});
+  alert("विवरण Firebase में सुरक्षित हो गया है। अब आप आइटम जोड़ सकते हैं या पेमेंट कर सकते हैं।");
+  checkCustomerDetailsState();
+ }catch(e){
+  alert("विवरण Firebase में सेव नहीं हो पाया: "+friendlyError(e));
+ }
+}
+function checkCustomerDetailsState(){
+ loadCustomerSavedInfo();
+ const formCard=el("customerDetailsFormCard");
+ if(!formCard) return;
+ if(customerInfo.name&&customerInfo.mobile&&customerInfo.address){
+  formCard.classList.add("hidden");
+ }else{
+  formCard.classList.remove("hidden");
+  const custInputNameEl=el("custInputName");
+  const custInputMobileEl=el("custInputMobile");
+  const custInputAddressEl=el("custInputAddress");
+  if(custInputNameEl) custInputNameEl.value=customerInfo.name||"";
+  if(custInputMobileEl) custInputMobileEl.value=customerInfo.mobile||"";
+  if(custInputAddressEl) custInputAddressEl.value=customerInfo.address||"";
+ }
+}
+
+async function loadCustomerCart(){
+ let localCart={};
+ try{
+  const raw=localStorage.getItem(customerLocalCartKey());
+  if(raw)localCart=JSON.parse(raw)||{};
+ }catch(e){}
+
+ customerCart=localCart;
+ renderCustomerCart();
+
+ try{
+  const snap=await customerCartRef(customerShareUid,customerShareListId).once("value");
+  const cloudCart=snap.val();
+  if(cloudCart&&typeof cloudCart==="object"&&Object.keys(cloudCart).length>0){
+   customerCart=cloudCart;
+   try{
+    localStorage.setItem(customerLocalCartKey(),JSON.stringify(customerCart));
+   }catch(e){}
+   renderCustomerCart();
+   renderCustomerItems();
+  }else if(Object.keys(localCart).length>0){
+   await customerCartRef(customerShareUid,customerShareListId).set(localCart);
+  }
+ }catch(e){}
+}
+
+async function saveCustomerCart(){
+ try{
+  localStorage.setItem(customerLocalCartKey(),JSON.stringify(customerCart));
+ }catch(e){}
+ try{
+  await customerCartRef(customerShareUid,customerShareListId).set(customerCart);
+ }catch(e){}
+}
+
+async function addToCustomerCart(itemId){
+ loadCustomerSavedInfo();
+ if(!customerInfo.name||!customerInfo.mobile||!customerInfo.address){
+  alert("कृपया पहले ऊपर दिए गए फॉर्म में अपना नाम, मोबाइल और पता भरें।");
+  const formCard=el("customerDetailsFormCard");
+  if(formCard) formCard.scrollIntoView({behavior:"smooth"});
+  return;
+ }
+
+ customerCart[itemId]=(customerCart[itemId]||0)+1;
+ renderCustomerCart();
+ renderCustomerItems();
+ await saveCustomerCart();
+}
+
+async function changeCustomerQty(itemId,delta){
+ const next=(customerCart[itemId]||0)+delta;
+ if(next<=0){
+  delete customerCart[itemId];
+ }else{
+  customerCart[itemId]=next;
+ }
+ renderCustomerCart();
+ renderCustomerItems();
+ await saveCustomerCart();
+}
+
+async function clearCustomerCart(){
+ if(!Object.keys(customerCart).length)return;
+ customerCart={};
+ const paymentBoxEl=el("paymentBox");
+ if(paymentBoxEl) paymentBoxEl.classList.add("hidden");
+ renderCustomerCart();
+ renderCustomerItems();
+ await saveCustomerCart();
+}
+
+function renderCustomerCart(){
+ if(!customerPayload)return;
+ const items=customerPayload.list.items||[];
+ const entries=[];
+ let totalQty=0;
+ let totalAmt=0;
+
+ for(const item of items){
+  const qty=Number(customerCart[item.id]||0);
+  if(qty>0){
+   totalQty+=qty;
+   totalAmt+=qty*Number(item.sell);
+   entries.push({item,qty,sub:qty*Number(item.sell)});
+  }
+ }
+
+ const cartCountEl=el("cartCount");
+ if(cartCountEl) cartCountEl.textContent=totalQty;
+
+ const cartItemsEl=el("customerCartItems");
+ const cartSummaryEl=el("customerCartSummary");
+
+ if(!entries.length){
+  if(cartItemsEl) cartItemsEl.innerHTML='<p class="muted">अभी कोई आइटम नहीं जोड़ा गया है। नीचे से ADD TO LIST करें।</p>';
+  if(cartSummaryEl) cartSummaryEl.classList.add("hidden");
+  return;
+ }
+
+ if(cartItemsEl){
+  cartItemsEl.innerHTML=entries.map(e=>`
+   <div class="item">
+    <div class="row">
+     <div>
+      <div class="item-name">${escapeHTML(e.item.name)}</div>
+      <div class="muted">${money(e.item.sell)} × ${e.qty} = <b>${money(e.sub)}</b></div>
+     </div>
+     <div class="qty-box" style="flex:0 0 auto;margin:0">
+      <button type="button" class="light" onclick="changeCustomerQty('${e.item.id}',-1)">−</button>
+      <span class="qty-val">${e.qty}</span>
+      <button type="button" class="green" onclick="changeCustomerQty('${e.item.id}',1)">+</button>
+     </div>
+    </div>
+   </div>
+  `).join("");
+ }
+
+ const cartTotalAmountEl=el("cartTotalAmount");
+ if(cartTotalAmountEl) cartTotalAmountEl.textContent=money(totalAmt);
+ if(cartSummaryEl) cartSummaryEl.classList.remove("hidden");
+}
+
+async function sendCustomerOrderToDashboard(summaryTitle, totalAmt, selectedItem=null){
+ loadCustomerSavedInfo();
+ if(!customerInfo.name||!customerInfo.mobile||!customerInfo.address)return;
+
+ const allItems=customerPayload.list.items||[];
+ const orderItems=[];
+ if(selectedItem){
+  orderItems.push({id:selectedItem.id,name:selectedItem.name,photo:selectedItem.photo||"",quantity:1,unitPrice:Number(selectedItem.sell||0),total:Number(selectedItem.sell||0)});
+ }else{
+  for(const item of allItems){
+   const qty=Number(customerCart[item.id]||0);
+   if(qty>0){
+    const unitPrice=Number(item.sell||0);
+    orderItems.push({id:item.id,name:item.name,photo:item.photo||"",quantity:qty,unitPrice,total:unitPrice*qty});
+   }
+  }
+ }
+ const orderObj={
+  id:makeId(),
+  customerUid:currentUser.uid,
+  customerName:customerInfo.name,
+  customerMobile:customerInfo.mobile,
+  customerAddress:customerInfo.address,
+  listName:customerPayload.list.name||"Catalogue",
+  itemsSummary:orderItems.map(x=>x.name+" ("+x.quantity+" pc)").join(", ")||summaryTitle,
+  items:orderItems,
+  totalAmount:Number(totalAmt||0),
+  status:"BUY / PAY अनुरोध प्राप्त",
+  // Keep the Firebase-required field present but empty until the shop owner confirms.
+  deliveryConfirmation:"",
+  confirmed:false,
+  time:new Date().toLocaleString("hi-IN")
+ };
+
+ try{
+  const ref=db.ref("customerOrders/"+customerShareUid+"/"+orderObj.id);
+  await ref.set(orderObj);
+  await sendNetlifyOrderPush("new-order",{ownerUid:customerShareUid,orderId:orderObj.id});
+  activeCustomerOrderId=orderObj.id;
+  const confirmationCard=el("codConfirmation");
+  const confirmationStatus=el("codDeliveryConfirmed");
+  if(confirmationCard)confirmationCard.classList.remove("hidden");
+  if(confirmationStatus)confirmationStatus.classList.toggle("hidden",!customerConfirmedOrderIds.has(orderObj.id));
+ }catch(e){
+  alert("ऑर्डर/इंक्वायरी Firebase में सेव नहीं हो सकी: "+friendlyError(e));
+ }
+}
+
+function openCodProductSelector(){
+ if(!customerPayload)return;
+ loadCustomerSavedInfo();
+ if(!customerInfo.name||!customerInfo.mobile||!customerInfo.address){
+  alert("कृपया पहले अपना नाम, मोबाइल नंबर और दुकान का पता दर्ज करें।");
+  const formCard=el("customerDetailsFormCard");
+  if(formCard){formCard.classList.remove("hidden");formCard.scrollIntoView({behavior:"smooth"});}
+  return;
+ }
+ const options=el("codProductOptions");
+ const selector=el("codProductSelector");
+ if(!options||!selector)return;
+ const items=customerPayload.list.items||[];
+ options.innerHTML=items.map(item=>{
+  const already=Number(customerCart[item.id]||0);
+  return `<div class="item" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+   <label style="display:flex;align-items:center;gap:8px;flex:1;min-width:180px;margin:0">
+    <input type="checkbox" class="cod-product-check" value="${escapeHTML(item.id)}" ${already>0?"checked":""} style="width:auto">
+    <span><b>${escapeHTML(item.name)}</b><br><span class="muted">${money(item.sell)}</span></span>
+   </label>
+   <label style="width:105px;margin:0">मात्रा
+    <input class="cod-product-qty" data-item-id="${escapeHTML(item.id)}" type="number" min="1" max="999" value="${already>0?already:1}" style="margin-top:4px">
+   </label>
+  </div>`;
+ }).join("")||'<p class="muted">कोई प्रोडक्ट उपलब्ध नहीं है।</p>';
+ selector.classList.remove("hidden");
+ selector.scrollIntoView({behavior:"smooth"});
+}
+
+function closeCodProductSelector(){
+ const selector=el("codProductSelector");
+ if(selector)selector.classList.add("hidden");
+}
+
+async function confirmSelectedCodOrder(){
+ if(!customerPayload)return;
+ loadCustomerSavedInfo();
+ if(!customerInfo.name||!customerInfo.mobile||!customerInfo.address){
+  alert("कृपया पहले अपना नाम, मोबाइल नंबर और दुकान का पता दर्ज करें।");
+  const formCard=el("customerDetailsFormCard");
+  if(formCard){formCard.classList.remove("hidden");formCard.scrollIntoView({behavior:"smooth"});}
+  return;
+ }
+ const selected=[...document.querySelectorAll(".cod-product-check:checked")];
+ if(!selected.length){alert("कृपया COD के लिए कम से कम एक प्रोडक्ट चुनें।");return;}
+ const allItems=customerPayload.list.items||[];
+ const orderItems=[];
+ let totalAmount=0;
+ for(const check of selected){
+  const item=allItems.find(x=>String(x.id)===check.value);
+  if(!item)continue;
+  const qtyEl=document.querySelector('.cod-product-qty[data-item-id="'+CSS.escape(String(item.id))+'"]');
+  const qty=Math.max(1,Math.min(999,parseInt(qtyEl&&qtyEl.value,10)||1));
+  const unitPrice=Number(item.sell||0);
+  if(!Number.isFinite(unitPrice)||unitPrice<=0){alert("किसी प्रोडक्ट की कीमत सही नहीं है।");return;}
+  const lineTotal=unitPrice*qty;
+  totalAmount+=lineTotal;
+  orderItems.push({id:item.id,name:item.name,photo:item.photo||"",quantity:qty,unitPrice,total:lineTotal});
+ }
+ if(!orderItems.length){alert("कृपया वैध प्रोडक्ट चुनें।");return;}
+ const advanceAmount=Number((totalAmount*0.5).toFixed(2));
+ const orderObj={
+  id:makeId(),orderType:"COD",paymentMode:"Cash on Delivery (50% Advance)",
+  customerUid:currentUser.uid,
+  customerName:customerInfo.name,customerMobile:customerInfo.mobile,customerAddress:customerInfo.address,
+  listName:customerPayload.list.name||"Catalogue",
+  itemsSummary:orderItems.map(x=>x.name+" ("+x.quantity+" pc)").join(", ")+" — कुल "+orderItems.reduce((sum,x)=>sum+Number(x.quantity||0),0)+" पीस",
+  items:orderItems,totalAmount,advanceAmount,
+  status:"50% एडवांस पेमेंट डिलीवरी पर",
+  // Empty until the shop owner confirms; satisfies the existing RTDB validation rule.
+  deliveryConfirmation:"",
+  confirmed:false,
+  time:new Date().toLocaleString("hi-IN")
+ };
+ try{
+  await db.ref("customerOrders/"+customerShareUid+"/"+orderObj.id).set(orderObj);
+  await sendNetlifyOrderPush("new-order",{ownerUid:customerShareUid,orderId:orderObj.id});
+  activeCustomerOrderId=orderObj.id;
+  const confirmationStatus=el("codDeliveryConfirmed");
+  if(confirmationStatus)confirmationStatus.classList.toggle("hidden",!customerConfirmedOrderIds.has(orderObj.id));
+  closeCodProductSelector();
+  const paymentBoxEl=el("paymentBox");if(paymentBoxEl)paymentBoxEl.classList.add("hidden");
+  const codBox=el("codConfirmation");if(codBox){codBox.classList.remove("hidden");codBox.scrollIntoView({behavior:"smooth"});}
+ }catch(e){
+  alert("COD ऑर्डर भेजा नहीं जा सका: "+friendlyError(e));
+ }
+}
+
+function placeCashOnDeliveryOrder(){openCodProductSelector();}
+
+async function payCartTotal(){
+ if(!customerPayload)return;
+ loadCustomerSavedInfo();
+ if(!customerInfo.name||!customerInfo.mobile||!customerInfo.address){
+  alert("कृपया पहले ऊपर दिए गए फॉर्म में अपना नाम, मोबाइल और पता भरें।");
+  const formCard=el("customerDetailsFormCard");
+  if(formCard) formCard.scrollIntoView({behavior:"smooth"});
+  return;
+ }
+
+ const items=customerPayload.list.items||[];
+ let totalAmt=0;
+ let count=0;
+ for(const item of items){
+  const qty=Number(customerCart[item.id]||0);
+  if(qty>0){
+   totalAmt+=qty*Number(item.sell);
+   count+=qty;
+  }
+ }
+ if(totalAmt<=0)return;
+
+ await sendCustomerOrderToDashboard("Selected Items ("+count+")",totalAmt);
+ openPaymentBox("Selected Items ("+count+")",totalAmt,"");
+}
+
+/* CUSTOMER DELIVERY CONFIRMATION: SHOW INLINE ON THE WEBSITE, NOT AS A POPUP/SMS */
+let customerNotificationsListenerRef=null;
+let activeCustomerOrderId=null;
+const customerConfirmedOrderIds=new Set();
+function showInlineDeliveryConfirmed(){
+ const confirmationCard=el("codConfirmation");
+ const confirmationStatus=el("codDeliveryConfirmed");
+ if(confirmationCard)confirmationCard.classList.remove("hidden");
+ if(confirmationStatus)confirmationStatus.classList.remove("hidden");
+}
+function startCustomerNotificationsListener(){
+ if(!customerMode||!currentUser)return;
+ if(customerNotificationsListenerRef)customerNotificationsListenerRef.off("child_added");
+ customerNotificationsListenerRef=db.ref("customerNotifications/"+currentUser.uid);
+ customerNotificationsListenerRef.on("child_added",snap=>{
+  const notice=snap.val();
+  if(!notice||notice.message!=="डिलीवरी कन्फर्म"||!notice.orderId)return;
+  customerConfirmedOrderIds.add(String(notice.orderId));
+  if(activeCustomerOrderId&&String(activeCustomerOrderId)===String(notice.orderId))showInlineDeliveryConfirmed();
+ });
+}
+
+/* OPEN SHARED CUSTOMER LINK */
+
+async function loadSharedLink(){
+ const raw=location.hash.slice(6).split("/");
+
+ if(raw.length!==2)return false;
+
+ const uid=decodeURIComponent(raw[0]);
+ const id=decodeURIComponent(raw[1]);
+
+ if(!uid||!id)return false;
+
+ try{
+  const snap=await publicListRef(uid,id).once("value");
+  const payload=snap.val();
+
+  if(!payload||!payload.list||!Array.isArray(payload.list.items)){
+   throw new Error("Link not found");
+  }
+
+  customerShareUid=uid;
+  customerShareListId=id;
+  customerPayload=payload;
+  customerMode=true;
+  await waitForCustomerAuth();
+  if(localStorage.getItem("isWholesalePushEnabled")==="1"){
+   try{await db.ref("publicListSubscribers/"+uid+"/"+id+"/"+currentUser.uid).set({uid:currentUser.uid,updatedAt:Date.now()});}catch(e){}
+  }
+  await syncCustomerSavedInfoFromFirebase();
+  startCustomerNotificationsListener();
+  openCustomer(payload);
+  checkCustomerDetailsState();
+  await loadCustomerCart();
+  return true;
+
+ }catch(e){
+  alert("यह शेयर लिंक उपलब्ध नहीं है या हटाया जा चुका है।");
+  return false;
+ }
+}
+
+function openCustomer(payload){
+ customerPayload=payload;
+
+ const custDP=el("customerPageShopDP");
+ if(custDP){
+  custDP.src=payload.shopDP||DEFAULT_SHOP_DP_SVG;
+  custDP.classList.remove("hidden");
+ }
+
+ const customerShopEl=el("customerShop");
+ if(customerShopEl) customerShopEl.textContent=payload.shop||"i.S Wholesale Communication";
+
+ const customerListEl=el("customerList");
+ if(customerListEl) customerListEl.textContent=payload.list.name||"";
+ const customerAddressEl=el("customerAddress");
+ if(customerAddressEl) customerAddressEl.textContent=payload.address||"";
+ const customerSearchEl=el("customerSearch");
+ if(customerSearchEl) customerSearchEl.value="";
+ const paymentBoxEl=el("paymentBox");
+ if(paymentBoxEl) paymentBoxEl.classList.add("hidden");
+
+ const mob=payload.mobile||"";
+ const wp=payload.whatsappNo||mob;
+
+ const callBtn=el("custCallBtn");
+ const wpBtn=el("custWpBtn");
+
+ if(callBtn){
+  if(mob){
+   callBtn.href="tel:"+mob;
+   callBtn.style.display="inline-block";
+  }else{
+   callBtn.style.display="none";
+  }
+ }
+
+ if(wpBtn){
+  if(wp){
+   wpBtn.href="https://wa.me/91"+wp.replace(/\D/g,"")+"?text=Hello%2C%20I%20visited%20your%20catalogue.";
+   wpBtn.style.display="inline-block";
+  }else{
+   wpBtn.style.display="none";
+  }
+ }
+
+ renderCustomerCart();
+ renderCustomerItems();
+ show("customer");
+}
+
+/* CUSTOMER SEARCH */
+
+function renderCustomerItems(){
+ if(!customerPayload)return;
+
+ const customerSearchEl=el("customerSearch");
+ const q=customerSearchEl?(customerSearchEl.value||"").trim().toLowerCase():"";
+
+ const items=customerPayload.list.items.filter(i=>
+  i.name.toLowerCase().includes(q)
+ );
+
+ const customerItemsEl=el("customerItems");
+ if(!customerItemsEl) return;
+ customerItemsEl.innerHTML=items.length
+ ?items.map((item,index)=>{
+  const qty=Number(customerCart[item.id]||0);
+  return `
+  <div class="item">
+   <div class="item-flex-row">
+    ${item.photo?`<img src="${item.photo}" class="prod-thumb" onclick="openFullImage('${item.photo}')" alt="${escapeHTML(item.name)}">`:""}
+    <div style="flex:1;min-width:0">
+     <div class="item-name">${index+1}. ${escapeHTML(item.name)}</div>
+     <p class="price">${money(item.sell)}</p>
+    </div>
+   </div>
+   <div style="margin:8px 0 10px;padding:9px 10px;border:1px solid #d6e8dc;border-radius:9px;background:#f3fbf5;color:#176b43;font-size:12px;line-height:1.45">
+    <b>📦 OPEN BOXING DELIVERY:</b> हमारी वेबसाइट की सलाह है कि डिलीवरी लेते समय डिलीवरी बॉय के सामने पैकेट खोलकर सामान चेक करें। सुरक्षा के लिए अनबॉक्सिंग का वीडियो जरूर बनाएं।
+   </div>
+   <div class="actions">
+    ${qty>0
+     ?`<button type="button" class="light" onclick="changeCustomerQty('${item.id}',-1)">−</button>
+       <span class="qty-val">${qty}</span>
+       <button type="button" class="green" onclick="changeCustomerQty('${item.id}',1)">+</button>`
+     :`<button type="button" class="primary" onclick="addToCustomerCart('${item.id}')">＋ ADD TO LIST</button>`
+    }
+    <button type="button" class="green" onclick="selectProduct('${item.id}')">BUY / PAY</button>
+    <button type="button" class="primary" onclick="placeCashOnDeliveryOrder()">CASH ON DELIVERY</button>
+    <button type="button" class="light" onclick="viewCustomerItemQR('${item.id}')">👁️ QR देखें</button>
+   </div>
+  </div>
+ `}).join("")
+ :'<p class="muted">कोई प्रोडक्ट नहीं मिला।</p>';
+}
+
+/* PRODUCT PAYMENT QR */
+
+async function selectProduct(id){
+ if(!customerPayload)return;
+ loadCustomerSavedInfo();
+ if(!customerInfo.name||!customerInfo.mobile||!customerInfo.address){
+  alert("कृपया पहले ऊपर दिए गए फॉर्म में अपना नाम, मोबाइल और पता भरें।");
+  const formCard=el("customerDetailsFormCard");
+  if(formCard) formCard.scrollIntoView({behavior:"smooth"});
+  return;
+ }
+
+ const item=customerPayload.list.items.find(x=>x.id===id);
+ if(!item)return;
+
+ await sendCustomerOrderToDashboard(item.name, Number(item.sell), item);
+ openPaymentBox(item.name,Number(item.sell),item.qrImage||"");
+}
+
+/* DYNAMICALLY INJECT OG META TAGS FOR WHATSAPP PREVIEW BASED ON SHARED LINK DATA */
+async function injectDynamicOpenGraphTags(){
+ if(!location.hash.startsWith("#view="))return;
+ const raw=location.hash.slice(6).split("/");
+ if(raw.length!==2)return;
+ const uid=decodeURIComponent(raw[0]);
+ const id=decodeURIComponent(raw[1]);
+ if(!uid||!id)return;
+ try{
+  const snap=await publicListRef(uid,id).once("value");
+  const payload=snap.val();
+  if(!payload)return;
+  const shopName=payload.shop||"i.S Wholesale Communication";
+  const shopDP=payload.shopDP||"https://is-wholesale-communication.netlify.app/logo.jpg";
+  const listName=payload.list&&payload.list.name?payload.list.name:"Product Catalogue";
+
+  document.title=shopName+" - "+listName;
+  
+  const setMeta=(prop,val)=>{
+   let tag=document.querySelector('meta[property="'+prop+'"]')||document.querySelector('meta[name="'+prop+'"]');
+   if(!tag){
+    tag=document.createElement("meta");
+    if(prop.startsWith("twitter:"))tag.setAttribute("name",prop);
+    else tag.setAttribute("property",prop);
+    document.head.appendChild(tag);
+   }
+   tag.setAttribute("content",val);
+  };
+
+  setMeta("og:title",shopName+" - "+listName);
+  setMeta("og:description","Wholesale Catalogue & Price List");
+  setMeta("og:image",shopDP);
+  setMeta("og:image:secure_url",shopDP);
+  setMeta("twitter:image",shopDP);
+ }catch(e){}
+}
+
+function openPaymentBox(title,amount,itemSpecificQR){
+ if(!customerPayload)return;
+
+ const paymentBoxEl=el("paymentBox");
+ if(paymentBoxEl) paymentBoxEl.classList.remove("hidden");
+ const paymentProductEl=el("paymentProduct");
+ if(paymentProductEl) paymentProductEl.textContent=title;
+ const paymentAmountEl=el("paymentAmount");
+ if(paymentAmountEl) paymentAmountEl.textContent=money(amount);
+ const qrEl=el("qr");
+ if(qrEl) qrEl.innerHTML="";
+ const staticQREl=el("staticQR");
+ if(staticQREl) staticQREl.innerHTML="";
+ const paymentHintEl=el("paymentHint");
+ if(paymentHintEl) paymentHintEl.textContent="";
+
+ const upi=String(customerPayload.upi||"").trim();
+ const valid=/^[^@\s]+@[^@\s]+$/.test(upi);
+
+ const upiButtonEl=el("upiButton");
+ if(valid){
+  const uri="upi://pay?pa="+encodeURIComponent(upi)+
+   "&pn="+encodeURIComponent(customerPayload.shop||"Shop")+
+   "&am="+encodeURIComponent(amount.toFixed(2))+
+   "&cu=INR&tn="+encodeURIComponent(title);
+
+  if(paymentHintEl) paymentHintEl.textContent="ऊपर दिए गए QR में "+money(amount)+" की रकम ऑटोमैटिक सेट है।";
+
+  if(upiButtonEl){
+   upiButtonEl.classList.remove("hidden");
+   upiButtonEl.onclick=()=>{location.href=uri};
+  }
+
+  if(typeof QRCode!=="undefined"&&qrEl){
+   new QRCode(qrEl,{
+    text:uri,
+    width:210,
+    height:210,
+    correctLevel:QRCode.CorrectLevel.M
+   });
+  }
+
+ }else{
+  if(paymentHintEl) paymentHintEl.textContent="नीचे दिए गए QR कोड पर "+money(amount)+" का भुगतान करें (बड़ा देखने के लिए QR पर टैप करें)।";
+  if(upiButtonEl) upiButtonEl.classList.add("hidden");
+ }
+
+ const shopQRToShow=itemSpecificQR||customerPayload.qrImage||DEFAULT_SHOP_QR_SVG;
+ const img=document.createElement("img");
+ img.src=shopQRToShow;
+ img.alt="Payment QR";
+ img.style.cursor="pointer";
+ img.onclick=()=>openFullQR(shopQRToShow,title,"रेट: "+money(amount)+" — स्कैन करके पेमेंट करें",amount,customerPayload.upi,customerPayload.shop);
+ img.onerror=()=> {
+  img.src=DEFAULT_SHOP_QR_SVG;
+ };
+ if(staticQREl) staticQREl.appendChild(img);
+
+ if(paymentBoxEl) paymentBoxEl.scrollIntoView({behavior:"smooth"});
+}
+
+/* INSTANT STARTUP DIRECTLY TO DASHBOARD + BACKGROUND FIREBASE SYNC */
+
+if(!customerMode){
+ loadLocalInstant();
+ show("dashboard");
+ renderDashboard();
+}else{
+ show("welcome");
+}
+
+auth.onAuthStateChanged(async user=>{
+ currentUser=user;
+
+ if(!user){
+  if(anonymousSignInStarted)return;
+  anonymousSignInStarted=true;
+  try{
+   await auth.signInAnonymously();
+  }catch(e){
+   anonymousSignInStarted=false;
+   alert("Firebase Connection Error: "+friendlyError(e));
+  }
+  return;
+ }
+
+ try{
+  await loadCloud();
+  addWebsitePushButton();
+
+  if(!customerMode){
+   startOrdersListener();
+   if(activeScreen==="welcome"||activeScreen==="dashboard"){
+    show("dashboard");
+    renderDashboard();
+   }else if(activeScreen==="notebook"||activeScreen==="settings"){
+    if(activeScreen==="notebook")renderNotebookSheets();
+   }
+  }
+
+ }catch(e){
+  if(activeScreen==="welcome"){
+   alert("Firebase से डेटा नहीं मिला: "+friendlyError(e));
+  }
+ }
+});
+
+/* CHECK CUSTOMER SHARE LINK */
+
+(async()=>{
+ if(location.hash.startsWith("#view=")){
+  customerMode=true;
+  await injectDynamicOpenGraphTags();
+  const ok=await loadSharedLink();
+
+  if(!ok){
+   customerMode=false;
+   loadLocalInstant();
+   show("dashboard");
+   renderDashboard();
+  }
+ }
+})();
+
+</script>
+
+</body>
+</html>

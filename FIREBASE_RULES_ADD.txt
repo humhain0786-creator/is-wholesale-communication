@@ -1,0 +1,46 @@
+FIREBASE REALTIME DATABASE RULES — REPLACE ONLY YOUR EXISTING customerOrders BLOCK
+
+Keep your existing top-level users, publicLists, and customerCarts rules unchanged.
+Inside the top-level "rules" object, replace the old "customerOrders" block with the customerOrders block below, and add the customerNotifications block below it as a separate top-level child. Do not add a second customerOrders block.
+
+"customerOrders": {
+  "$ownerUid": {
+    ".read": "auth != null && auth.uid == $ownerUid",
+    "$orderId": {
+      ".write": "auth != null && (!data.exists() || auth.uid == $ownerUid)",
+      ".validate": "newData.hasChildren(['id','customerName','customerMobile','customerAddress','listName','totalAmount','time','status','deliveryConfirmation'])",
+      "id": { ".validate": "newData.isString() && newData.val() == $orderId" },
+      "customerUid": { ".validate": "newData.isString() && newData.val().length > 0" },
+      "customerName": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 120" },
+      "customerMobile": { ".validate": "newData.isString() && newData.val().length >= 10 && newData.val().length <= 20" },
+      "customerAddress": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 500" },
+      "listName": { ".validate": "newData.isString() && newData.val().length <= 160" },
+      "totalAmount": { ".validate": "newData.isNumber() && newData.val() > 0" },
+      "time": { ".validate": "newData.isString()" },
+      "status": { ".validate": "newData.isString()" },
+      "deliveryConfirmation": { ".validate": "newData.isString()" }
+    }
+  }
+},
+"customerNotifications": {
+  "$customerUid": {
+    ".read": "auth != null && auth.uid == $customerUid",
+    "$notificationId": {
+      ".write": "auth != null && (auth.uid == $customerUid || (newData.child('ownerUid').val() == auth.uid && root.child('customerOrders').child(auth.uid).child($notificationId).child('customerUid').val() == $customerUid && root.child('customerOrders').child(auth.uid).child($notificationId).child('confirmed').val() == true))",
+      ".validate": "newData.hasChildren(['ownerUid','orderId','message','createdAt'])",
+      "ownerUid": { ".validate": "newData.isString()" },
+      "orderId": { ".validate": "newData.isString() && newData.val() == $notificationId" },
+      "message": { ".validate": "newData.isString() && newData.val() == 'डिलीवरी कन्फर्म'" },
+      "createdAt": { ".validate": "newData.isNumber()" }
+    }
+  }
+}
+
+IMPORTANT:
+1. The first write to an order is allowed for an authenticated customer (including Anonymous Authentication).
+2. After creation, only the shop owner's signed-in account (auth.uid == $ownerUid) can update or delete that order. This is required for the dashboard CONFIRM action.
+3. New orders include customerUid so the shop can send the one-line confirmation notification to the customer who placed the order.
+4. The customerNotifications rule lets the customer read/delete their own notification and lets the matching shop owner create it only after that customer's order is confirmed.
+5. Keep Firebase Authentication > Sign-in method > Anonymous enabled for shared-list customers.
+6. Customer profile details continue to be stored under users/{customerFirebaseUid}/data/customerProfile. Existing users rules must permit that signed-in user to read/write their own users/{uid} data.
+7. This is a Realtime Database rules block, not a complete replacement for the entire rules document. Preserve the other existing top-level rules exactly as they are.

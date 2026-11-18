@@ -1,0 +1,56 @@
+i.S WHOLESALE COMMUNICATION — NETLIFY ORDER PUSH SETUP
+
+इस अपडेट में वेबसाइट के बाकी मौजूदा फीचर नहीं बदले गए हैं। केवल ऑर्डर Push Notification के लिए दो Netlify Functions जोड़ी गई हैं:
+1) नया ऑर्डर सेव होने पर दुकानदार के फोन पर: “आपकी वेबसाइट पर एक नया ऑर्डर आया है।”
+2) दुकानदार ऑर्डर Confirm करे तो उसी ग्राहक के फोन पर: “आपका ऑर्डर कन्फर्म हो गया है।”
+
+SMS/WhatsApp नहीं भेजे जाते। Firebase Cloud Messaging (FCM) से वेबसाइट के लोगो के साथ browser push भेजी जाती है। ग्राहक और दुकानदार दोनों को अपनी-अपनी वेबसाइट Push permission Allow करनी होगी और वेबसाइट में लॉगिन होना होगा।
+
+महत्वपूर्ण:
+- Firebase Cloud Functions deploy करने की जरूरत नहीं है। ये दो server functions Netlify पर चलती हैं।
+- Netlify Functions केवल ZIP को सामान्य static drag-and-drop deploy करने से build नहीं होतीं। इस ZIP को Netlify CLI या Git-connected Netlify build से deploy करना जरूरी है।
+- Netlify Functions चलाने के लिए Netlify site पर environment variables सेट करना जरूरी है। Service-account private key ZIP में शामिल नहीं है और कभी public ZIP में नहीं डालनी चाहिए।
+
+A. Firebase service account JSON तैयार करें
+1. Firebase Console → Project Settings → Service accounts खोलें।
+2. Generate new private key दबाकर JSON file अपने सुरक्षित कंप्यूटर पर डाउनलोड करें।
+3. इस JSON file को किसी को भेजें नहीं और वेबसाइट के public folder में upload न करें।
+
+B. Netlify environment variables सेट करें
+Netlify → अपनी Site → Site configuration (या Project configuration) → Environment variables में ये दो variables जोड़ें:
+
+FIREBASE_SERVICE_ACCOUNT = डाउनलोड की गई service-account JSON file का पूरा JSON content (एक ही variable value में)
+FIREBASE_DATABASE_URL = https://i-s-wholesale-communication-default-rtdb.firebaseio.com
+
+FIREBASE_SERVICE_ACCOUNT को chat, GitHub या ZIP में न रखें। इसे सिर्फ Netlify के सुरक्षित Environment variables में रखें। Variables जोड़ने के बाद नया deploy करें।
+
+C. Netlify पर Functions deploy करें
+इस ZIP को extract करके project root से Netlify CLI या Git-connected build के जरिए deploy करें। ZIP के root में netlify.toml, package.json और netlify/functions/ मौजूद हैं।
+
+Netlify CLI (कंप्यूटर पर):
+1. Node.js 20 या नया और Netlify CLI install करें: npm install -g netlify-cli
+2. Project folder में terminal खोलें और चलाएँ: npm install
+3. चलाएँ: netlify login
+4. अपनी मौजूदा Netlify site से link करें: netlify link
+5. Deploy करें: netlify deploy --prod
+
+पहली बार या preview deploy के लिए पहले `netlify deploy` चलाकर draft URL जांच सकते हैं। Live production deploy के लिए `netlify deploy --prod` चलाएँ।
+
+वैकल्पिक: ZIP को GitHub repository में push करके Netlify में उस repository को connect करें। Build settings में Publish directory `.` रखें। netlify.toml Functions directory `netlify/functions` बताता है। Root package.json से firebase-admin dependency install होगी।
+
+D. Deploy के बाद जांच
+Netlify Site → Functions में `new-order` और `order-confirmed` दिखने चाहिए। Functions logs में कोई missing environment variable या Firebase permission error नहीं होना चाहिए।
+
+E. फोन पर जांच
+1. दुकानदार अपने फोन में वेबसाइट खोलकर लॉगिन करे और Notification चालू करे।
+2. ग्राहक अपने फोन में shared link खोलकर लॉगिन करे और Notification चालू करे।
+3. ग्राहक एक test order करे। दुकानदार के फोन पर नया ऑर्डर Push आना चाहिए।
+4. दुकानदार order Confirm करे। ग्राहक के फोन पर “आपका ऑर्डर कन्फर्म हो गया है।” Push आना चाहिए।
+
+सुरक्षा/व्यवहार:
+- दोनों Netlify endpoints Firebase Authentication ID token verify करते हैं।
+- नया ऑर्डर endpoint जांचता है कि अनुरोध करने वाला signed-in customer उसी order का customerUid है।
+- Confirm endpoint जांचता है कि signed-in shop owner के customerOrders में वही order confirmed=true है।
+- Server केवल pushTokens/{uid} में मौजूद opted-in devices पर FCM भेजता है।
+- Push भेजने में समस्या आने पर भी ऑर्डर सेव/Confirm करने की मौजूदा प्रक्रिया नहीं रोकी जाती; Netlify Function logs और browser console में error दिख सकता है।
+- मौजूदा Firebase Realtime Database rules, Firebase Messaging service worker और public VAPID key जस के तस रखे गए हैं।

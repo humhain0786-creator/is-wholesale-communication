@@ -1,0 +1,38 @@
+{
+  "rules": {
+    "pushTokens": {
+      "$uid": {
+        ".read": "auth != null && auth.uid == $uid",
+        "$tokenKey": {
+          ".write": "auth != null && auth.uid == $uid",
+          ".validate": "newData.hasChildren(['token','updatedAt'])",
+          "token": {
+            ".validate": "newData.isString()"
+          },
+          "updatedAt": {
+            ".validate": "newData.isNumber()"
+          },
+          "platform": {
+            ".validate": "newData.isString()"
+          }
+        }
+      }
+    },
+    "publicListSubscribers": {
+      "$ownerUid": {
+        "$listId": {
+          "$customerUid": {
+            ".write": "auth != null && auth.uid == $customerUid",
+            ".validate": "newData.hasChildren(['uid','updatedAt']) && newData.child('uid').val() == $customerUid",
+            "uid": {
+              ".validate": "newData.isString()"
+            },
+            "updatedAt": {
+              ".validate": "newData.isNumber()"
+            }
+          }
+        }
+      }
+    }
+  }
+}
