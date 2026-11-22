@@ -186,34 +186,6 @@ header h1{font-size:20px}
 .brand-round-logo{width:40px;height:40px}
 .intro-shop-title{font-size:21px}
 }
-
-/* SALES LIST POPUP LAYOUT */
-.sales-popup-card{width:min(980px,100%);max-height:92vh;overflow:auto;text-align:left;color:#14233b;margin:0;padding:16px}
-.sales-popup-head{display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:-16px;background:#fff;padding:4px 0 12px;z-index:2}
-.sales-popup-head h2{margin:0}
-.sales-date-block{border:1px solid #dce3ed;border-radius:12px;padding:12px;margin:12px 0;background:#fbfcfe}
-.sales-date-title{font-size:16px;font-weight:800;color:#183b67;margin:0 0 10px}
-.sales-columns{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid #dce3ed;border-radius:10px;overflow:hidden;background:#fff}
-.sales-column{padding:10px;min-width:0;background:#fff}
-.sales-column:first-child{border-right:2px solid #cbd5e1}
-.sales-column h4{margin:0 0 8px;font-size:14px;color:#183b67}
-.sales-column-date{font-size:12px;font-weight:800;color:#64748b;border-bottom:1px solid #dce3ed;padding-bottom:7px;margin-bottom:7px}
-.sales-column-total{border-top:2px solid #dce3ed;margin-top:8px;padding-top:9px;font-weight:800;font-size:13px;color:#168557}
-.sales-day-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:9px;border-top:1px solid #dce3ed;padding-top:9px}
-.sales-day-summary .stat{padding:9px 5px;font-size:11px}
-.sales-day-summary .stat b{font-size:15px}
-.sales-entry{border-top:1px solid #edf0f4;padding:9px 0}
-.sales-entry:first-of-type{border-top:0}
-.sales-entry .prod-thumb{width:48px;height:48px}
-.sales-entry-name{font-weight:700;font-size:13px;overflow-wrap:anywhere}
-.sales-entry-meta{font-size:12px;color:#66758a;margin-top:3px}
-.sales-entry-total{font-weight:800;color:#168557;margin-top:4px}
-.sales-date-totals{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}
-.sales-date-totals .stat{padding:9px 5px;font-size:11px}
-.sales-date-totals .stat b{font-size:16px}
-.sales-grand-total{margin-top:14px;background:#eef5f1;border-radius:11px;padding:12px}
-@media(max-width:560px){.sales-popup-card{padding:10px}.sales-columns{grid-template-columns:1fr 1fr}.sales-column{padding:7px}.sales-column h4{font-size:11px}.sales-column-date{font-size:10px}.sales-entry .prod-thumb{width:34px;height:34px}.sales-entry-name{font-size:11px}.sales-entry-meta{font-size:10px}.sales-entry-total{font-size:11px}.sales-column .actions{gap:3px}.sales-column .actions button{font-size:9px;padding:6px 4px;min-width:0}.sales-date-totals{grid-template-columns:1fr 1fr}.sales-date-totals .stat:last-child{grid-column:1/-1}.sales-day-summary{grid-template-columns:1fr 1fr}.sales-day-summary .stat:last-child{grid-column:1/-1}}
-
 </style>
 </head>
 
@@ -259,17 +231,6 @@ header h1{font-size:20px}
 <button class="close-qr-btn" style="margin-top:15px" onclick="closeFullImage()">✕ बंद करें (CLOSE)</button>
 </div>
 
-<!-- CASH SALE POPUP -->
-<div id="cashSaleModal" class="qr-modal hidden" style="background:rgba(10,18,34,.88)" onclick="if(event.target===this)closeCashSale()">
- <div class="card" style="width:min(440px,100%);color:#14233b;text-align:left;max-height:90vh;overflow:auto">
-  <h3 style="color:#183b67">💵 CASH SALE</h3>
-  <div id="cashSaleProduct"></div>
-  <label>QUANTITY (PCS)</label><input id="cashSaleQty" type="number" min="1" step="1" placeholder="1" oninput="updateCashSaleTotal()">
-  <p style="font-weight:bold">TOTAL: <span id="cashSaleTotal">₹0.00</span></p>
-  <div class="actions"><button type="button" class="green" onclick="confirmCashSale()">OK</button><button type="button" class="red" onclick="closeCashSale()">CANCEL</button></div>
- </div>
-</div>
-
 <!-- HIDDEN FILE INPUT FOR PER-ITEM, NOTEBOOK PH & QR UPLOAD -->
 <input type="file" id="itemQRFileInput" accept="image/*" class="hidden">
 <input type="file" id="itemPhotoFileInput" accept="image/*" class="hidden">
@@ -313,7 +274,6 @@ header h1{font-size:20px}
 <button type="button" class="primary" onclick="showNotebook()">📓 NOTEBOOK</button>
 <button type="button" class="light" onclick="showLists()">MY LISTS</button>
 <button type="button" class="light" onclick="showSettings()">MY DETAILS & QR</button>
-<button type="button" class="amber" onclick="showSalesList()">🧾 SALES LIST</button>
 </div>
 </div>
 
@@ -328,15 +288,6 @@ header h1{font-size:20px}
 <h2>🚚 DELIVERY LIST <span class="badge badge-green" id="deliveryOrdersCount">0</span></h2>
 <p class="muted">आपके द्वारा कन्फर्म किए गए सभी ऑर्डर यहाँ सुरक्षित दिखेंगे। किसी ऑर्डर पर टैप करके उसकी पूरी जानकारी देखें।</p>
 <div id="dashboardDeliveryList"></div>
-</div>
-
-<!-- SALES LIST POPUP: opens only after tapping SALES LIST -->
-<div id="salesListArea" class="qr-modal hidden" onclick="if(event.target===this)closeSalesList()" style="z-index:100000;background:rgba(10,18,34,.90);text-align:left;color:#14233b">
- <div class="card sales-popup-card">
-  <div class="sales-popup-head"><h2>🧾 SALES LIST</h2><button type="button" class="red" onclick="closeSalesList()">✕ CLOSE</button></div>
-  <div id="salesSummary"></div>
-  <div id="salesRecords"></div>
- </div>
 </div>
 
 <div class="card" id="listsArea">
@@ -723,6 +674,25 @@ firebase.initializeApp(firebaseConfig);
 const auth=firebase.auth();
 const db=firebase.database();
 
+/* Secure server-side Push sender hosted on Netlify */
+async function notifyPushEvent(payload){
+ const user=auth.currentUser;
+ if(!user)throw new Error("Firebase login उपलब्ध नहीं है।");
+ const idToken=await user.getIdToken();
+ const response=await fetch("/.netlify/functions/push-event",{
+  method:"POST",
+  headers:{"Content-Type":"application/json","Authorization":"Bearer "+idToken},
+  body:JSON.stringify(payload)
+ });
+ let result={};
+ try{result=await response.json();}catch(e){}
+ if(!response.ok)throw new Error(result.error||"Push request failed");
+ return result;
+}
+function notifyPushEventQuietly(payload){
+ notifyPushEvent(payload).catch(error=>console.warn("Push notification request failed:",error));
+}
+
 /* WEBSITE PUSH NOTIFICATIONS — requires the one-time Firebase setup in PUSH_NOTIFICATION_SETUP.txt */
 const PUSH_VAPID_PUBLIC_KEY="BI7d5sGfVQebfvSl3DCMqOgwggZklPueR_NLG5Ug1vVgFmEvveVHyNAM-1BfZ3zOSQyhf4Ps7HpfQQidjG9humE";
 let pushMessaging=null;
@@ -753,27 +723,6 @@ async function registerWebsitePush(){
  }
  updatePushButtonLabel("🔔 नोटिफिकेशन चालू हैं");
  return true;
-}
-
-// Send order events to secure Netlify Functions. The server verifies the
-// signed-in Firebase user and reads the order/tokens directly from Realtime DB.
-async function sendNetlifyOrderPush(functionName,payload){
- try{
-  if(!auth.currentUser)return;
-  const idToken=await auth.currentUser.getIdToken();
-  const response=await fetch("/.netlify/functions/"+functionName,{
-   method:"POST",
-   headers:{"Content-Type":"application/json","Authorization":"Bearer "+idToken},
-   body:JSON.stringify(payload)
-  });
-  if(!response.ok){
-   const detail=await response.text().catch(()=>"");
-   console.warn("Order push notification was not sent",functionName,response.status,detail);
-  }
- }catch(error){
-  // Do not interrupt order placement/confirmation if push delivery is unavailable.
-  console.warn("Order push notification request failed",functionName,error);
- }
 }
 
 function updatePushButtonLabel(label){
@@ -882,7 +831,6 @@ let pendingQRTarget=null;
 let pendingPhotoTarget=null;
 let pendingNotebookSheetId=null;
 let activeQRContext=null;
-let activeCashItemId=null;
 let customerPayload=null;
 let customerShareUid="";
 let customerShareListId="";
@@ -1091,7 +1039,6 @@ async function confirmQRPCDeduct(){
    const prevPC=Number(item.pc||0);
    const newPC=Math.max(0,prevPC-deductQty);
    item.pc=newPC;
-   addSaleRecord(item,deductQty,"Online Sale","QR/UPI");
    activeQRContext.currentPC=newPC;
    el("fullQRStockHint").textContent="(स्टॉक: "+newPC+")";
    renderEditorItems();
@@ -1575,7 +1522,6 @@ function normalizeData(raw){
  if(Array.isArray(raw.orders)){
   base.orders=raw.orders;
  }
- if(Array.isArray(raw.sales)){base.sales=raw.sales;}
  return base;
 }
 
@@ -1689,7 +1635,6 @@ function startOrdersListener(){
  });
 }
 function renderDashboard(){
- renderSalesList();
  const dpImg=el("dashboardCustomerDP");
  if(dpImg) dpImg.src=data.settings.shopDP||DEFAULT_SHOP_DP_SVG;
  if(dpImg) dpImg.classList.remove("hidden");
@@ -1814,8 +1759,8 @@ async function confirmCustomerOrder(orderId){
     message:"डिलीवरी कन्फर्म",
     createdAt:Date.now()
    });
-   await sendNetlifyOrderPush("order-confirmed",{orderId:orderId});
   }
+  notifyPushEventQuietly({event:"order-confirmed",ownerUid:currentUser.uid,orderId});
   Object.assign(order,updates);
   saveLocalSilent();
   renderDashboard();
@@ -2326,6 +2271,7 @@ async function shareNotebookList(sheetIdx){
 
  try{
   await publicListRef(currentUser.uid,fakeListId).set(sharePayload);
+  notifyPushEventQuietly({event:"list-reshared",ownerUid:currentUser.uid,listId:fakeListId,sharedAt:sharePayload.sharedAt});
   const url=location.href.split("#")[0]+
    "#view="+encodeURIComponent(currentUser.uid)+"/"+
    encodeURIComponent(fakeListId);
@@ -2534,7 +2480,6 @@ function renderEditorItems(){
     <button type="button" class="primary" onclick="triggerExistingItemPhoto('${item.id}')">📸 PH: फोटो जोड़ें</button>
     <button type="button" class="primary" onclick="triggerExistingItemQR('${item.id}')">➕ QR कोड</button>
     <button type="button" class="green" onclick="viewExistingItemQR('${item.id}')">👁️ QR देखें</button>
-    <button type="button" class="amber" onclick="openCashSale('${item.id}')">💵 CASH</button>
    </div>
 
    <div class="actions">
@@ -2545,47 +2490,6 @@ function renderEditorItems(){
  `).join("")
  :'<p class="muted">कोई प्रोडक्ट नहीं मिला।</p>';
 }
-
-function salesArray(){if(!Array.isArray(data.sales))data.sales=[];return data.sales;}
-function addSaleRecord(item,qty,type,details){
- const now=new Date();
- salesArray().unshift({id:makeId(),itemId:item.id,name:item.name,photo:item.photo||"",unitPrice:Number(item.sell||0),qty:Number(qty),total:Number(item.sell||0)*Number(qty),type:type,details:details||"",date:now.toISOString(),listId:currentId||""});
-}
-function openCashSale(itemId){
- const item=tempItems.find(x=>x.id===itemId);if(!item)return;
- activeCashItemId=itemId;el("cashSaleQty").value="";
- el("cashSaleProduct").innerHTML=(item.photo?'<img src="'+item.photo+'" style="width:82px;height:82px;object-fit:cover;border-radius:10px">':'')+'<h3 style="color:#183b67;margin:8px 0">'+escapeHTML(item.name)+'</h3><p>Price: <b>'+money(Number(item.sell||0))+'</b> / PC</p><p>Available Stock: <b>'+Number(item.pc||0)+' PC</b></p>';
- updateCashSaleTotal();el("cashSaleModal").classList.remove("hidden");
-}
-function updateCashSaleTotal(){const item=tempItems.find(x=>x.id===activeCashItemId);if(!item)return;const raw=el("cashSaleQty").value.trim();const qty=raw===""?1:Math.max(1,Math.floor(Number(raw)||1));el("cashSaleTotal").textContent=money(Number(item.sell||0)*qty);}
-function closeCashSale(){el("cashSaleModal").classList.add("hidden");activeCashItemId=null;}
-async function confirmCashSale(){
- const item=tempItems.find(x=>x.id===activeCashItemId);if(!item)return;
- const raw=el("cashSaleQty").value.trim();const qty=raw===""?1:Math.floor(Number(raw));
- if(!Number.isFinite(qty)||qty<1){alert("कृपया सही quantity डालें।");return;}
- if(qty>Number(item.pc||0)){alert("स्टॉक में केवल "+Number(item.pc||0)+" PC उपलब्ध हैं।");return;}
- item.pc=Number(item.pc||0)-qty;addSaleRecord(item,qty,"Cash Sale","Cash");
- const saved=data.lists.find(l=>l.id===currentId);if(saved){const si=(saved.items||[]).find(x=>x.id===item.id);if(si)si.pc=item.pc;}
- renderEditorItems();closeCashSale();
- try{await saveCloud();}catch(e){saveLocalSilent();alert("बिक्री इस डिवाइस में सेव हुई, लेकिन Cloud sync नहीं हो पाया।");}
- renderSalesList();
-}
-function showSalesList(){renderSalesList();const area=el("salesListArea");if(area)area.classList.remove("hidden");}
-function closeSalesList(){const area=el("salesListArea");if(area)area.classList.add("hidden");}
-function renderSalesList(){
- const rows=salesArray().slice().sort((a,b)=>new Date(b.date)-new Date(a.date));
- const groups={};
- rows.forEach(r=>{const d=new Date(r.date);const key=isNaN(d.getTime())?"Unknown date":d.toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});(groups[key]||(groups[key]=[])).push(r);});
- const todayKey=new Date().toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
- const todayRows=groups[todayKey]||[];
- const sum=(arr,type)=>arr.filter(r=>r.type===type).reduce((a,r)=>a+Number(r.total||0),0);
- const todayOnline=sum(todayRows,"Online Sale"),todayCash=sum(todayRows,"Cash Sale");
- el("salesSummary").innerHTML='<h3 style="margin:0 0 9px">आज का हिसाब — '+new Date().toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long",year:"numeric"})+'</h3><div class="sales-date-totals"><div class="stat">ONLINE TOTAL<b>'+money(todayOnline)+'</b></div><div class="stat">CASH TOTAL<b>'+money(todayCash)+'</b></div><div class="stat">GRAND TOTAL<b>'+money(todayOnline+todayCash)+'</b></div></div>';
- const renderColumn=(list,type,label,dateLabel,total)=>'<div class="sales-column"><h4>'+label+'</h4><div class="sales-column-date">📅 '+dateLabel+'</div>'+(list.length?list.map(r=>'<div class="sales-entry"><div class="item-flex-row">'+(r.photo?'<img class="prod-thumb" src="'+r.photo+'" alt="'+escapeHTML(r.name||"Product")+'">':'<div class="prod-thumb" style="display:flex;align-items:center;justify-content:center">📦</div>')+'<div style="flex:1;min-width:0"><div class="sales-entry-name">'+escapeHTML(r.name||"Item")+'</div><div class="sales-entry-meta">Price: '+money(Number(r.unitPrice||0))+' × '+Number(r.qty||0)+' PCS</div><div class="sales-entry-total">Amount: '+money(Number(r.total||0))+'</div><div class="sales-entry-meta">'+escapeHTML(r.details||"")+' · '+new Date(r.date).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})+'</div></div></div><div class="actions"><button type="button" class="amber" onclick="editSaleRecord(\''+r.id+'\')">✏️ EDIT</button><button type="button" class="red" onclick="deleteSaleRecord(\''+r.id+'\')">DELETE</button></div></div>').join(""):'<p class="muted">इस तारीख की कोई '+(type==="Online Sale"?"ऑनलाइन":"कैश")+' बिक्री नहीं।</p>')+'<div class="sales-column-total">'+(type==="Online Sale"?"TOTAL ONLINE SALE: ":"TOTAL CASH SALE: ")+money(total)+'</div></div>';
- el("salesRecords").innerHTML=rows.length?Object.keys(groups).map(key=>{const day=groups[key],online=sum(day,"Online Sale"),cash=sum(day,"Cash Sale");return '<section class="sales-date-block"><div class="sales-columns">'+renderColumn(day.filter(r=>r.type==="Online Sale"),"Online Sale","🌐 ONLINE SALES",key,online)+renderColumn(day.filter(r=>r.type==="Cash Sale"),"Cash Sale","💵 CASH SALES",key,cash)+'</div><div class="sales-day-summary"><div class="stat">TOTAL ONLINE PAYMENT<b>'+money(online)+'</b></div><div class="stat">TOTAL CASH PAYMENT<b>'+money(cash)+'</b></div><div class="stat">DAY TOTAL<b>'+money(online+cash)+'</b></div></div></section>';}).join(""):'<p class="muted">अभी कोई बिक्री दर्ज नहीं है।</p>';
-}
-async function editSaleRecord(id){const r=salesArray().find(x=>x.id===id);if(!r)return;const q=prompt("Quantity (PC):",r.qty);if(q===null)return;const qty=Math.floor(Number(q));if(!Number.isFinite(qty)||qty<1){alert("Invalid quantity");return;}const diff=qty-Number(r.qty||0);const list=data.lists.find(l=>l.id===r.listId);const item=list&&(list.items||[]).find(i=>i.id===r.itemId);if(item&&diff>0&&Number(item.pc||0)<diff){alert("स्टॉक पर्याप्त नहीं है।");return;}if(item)item.pc=Math.max(0,Number(item.pc||0)-diff);r.qty=qty;r.total=Number(r.unitPrice||0)*qty;const d=prompt("Payment details:",r.details||"");if(d!==null)r.details=d;try{await saveCloud();}catch(e){saveLocalSilent();}renderSalesList();}
-async function deleteSaleRecord(id){const r=salesArray().find(x=>x.id===id);if(!r||!confirm("इस बिक्री का रिकॉर्ड हटाएँ?"))return;const list=data.lists.find(l=>l.id===r.listId);const item=list&&(list.items||[]).find(i=>i.id===r.itemId);if(item)item.pc=Number(item.pc||0)+Number(r.qty||0);data.sales=salesArray().filter(x=>x.id!==id);try{await saveCloud();}catch(e){saveLocalSilent();}renderSalesList();}
 
 async function saveList(){
  const listNameEl=el("listName");
@@ -2913,7 +2817,9 @@ async function shareList(id){
 
   await publicListRef(currentUser.uid,id)
    .set(cleanPublicPayload(list));
-  await publicListRef(currentUser.uid,id).update({sharedAt:Date.now()});
+  const sharedAt=Date.now();
+  await publicListRef(currentUser.uid,id).update({sharedAt});
+  notifyPushEventQuietly({event:"list-reshared",ownerUid:currentUser.uid,listId:id,sharedAt});
 
   const url=location.href.split("#")[0]+
    "#view="+encodeURIComponent(currentUser.uid)+"/"+
@@ -3175,7 +3081,7 @@ async function sendCustomerOrderToDashboard(summaryTitle, totalAmt, selectedItem
  try{
   const ref=db.ref("customerOrders/"+customerShareUid+"/"+orderObj.id);
   await ref.set(orderObj);
-  await sendNetlifyOrderPush("new-order",{ownerUid:customerShareUid,orderId:orderObj.id});
+  notifyPushEventQuietly({event:"new-order",ownerUid:customerShareUid,orderId:orderObj.id});
   activeCustomerOrderId=orderObj.id;
   const confirmationCard=el("codConfirmation");
   const confirmationStatus=el("codDeliveryConfirmed");
@@ -3262,7 +3168,7 @@ async function confirmSelectedCodOrder(){
  };
  try{
   await db.ref("customerOrders/"+customerShareUid+"/"+orderObj.id).set(orderObj);
-  await sendNetlifyOrderPush("new-order",{ownerUid:customerShareUid,orderId:orderObj.id});
+  notifyPushEventQuietly({event:"new-order",ownerUid:customerShareUid,orderId:orderObj.id});
   activeCustomerOrderId=orderObj.id;
   const confirmationStatus=el("codDeliveryConfirmed");
   if(confirmationStatus)confirmationStatus.classList.toggle("hidden",!customerConfirmedOrderIds.has(orderObj.id));
